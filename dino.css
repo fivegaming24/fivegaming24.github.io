@@ -1,0 +1,156 @@
+*{
+    padding: 0;
+    margin: 0;
+}
+
+body{
+  margin: 0;
+  padding: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+
+
+}
+
+
+   
+.backdino{
+    background-color: rgba(101, 79, 65, 0.859);
+    width: 100%;
+    position: relative;
+}
+.logo{
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 40px;
+    align-self: baseline;
+    width: 250px;
+   color: white;
+}
+.dino {
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    justify-content: end;
+    align-items: flex-start;
+    display: flex;
+    
+}
+.dino li {
+    display: flex;
+    justify-content: end;
+    margin: 5px;
+    font-size: 20px;
+}
+.dino li a {
+    gap: 5px;
+    font-style: courier;
+    background-color: rgba(165, 42, 42, 0.706);
+    padding: 3px;
+    border: none;
+    border-radius: 7px;
+    
+    transition: 2s;
+}
+.dino li a:hover {
+    gap: 5px;
+    font-size: 30px;
+    font-style: courier;
+    background-color: rgba(165, 42, 42, 0.706);
+    padding: 3px;
+    border: none;
+    border-radius: 7px;    
+    position: relative;
+    transition: 2s;
+}
+.gaming1{
+    width: 100%;
+    height: 500px;
+    background-size: cover;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-image: url(./gaming1.jpg);
+    color: white;
+}
+.text{
+    width: 400px;
+    font-size: 18px;
+    border: 1px gray;
+    border-radius: 10px;
+    margin-left: 20px;
+    flex-flow: row wrap-reverse;
+}
+h1{
+    color: black;
+}
+
+.gaming2{
+    
+    width: 100%;
+    height: 500px;
+    background-size: cover;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-image: url(./gaming2.jpg);
+    color: white;
+}
+.p{
+    width: 400px;
+    font-size: 18px;
+    border: 1px gray;
+    border-radius: 10px;
+    margin-left: 20px;
+    flex-flow: row wrap-reverse;
+}
+
+h3{
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 50px;
+    align-self: baseline;
+    width: 100%;
+   color: white;
+}
+.bn45 {
+    width: 170px;
+    height: 50px;
+   
+  }
+
+.penutup{
+    margin-top: 10px;
+    padding: 0;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+
+}
+.penutup1{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.pembuat{
+    width: 100px;
+    height: 100px;
+    border: 1px;
+    border-radius: 60%;
+   gap: 100px;
+}
+.end{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.end .lista {
+    margin: 20px;
+}
+.gaming3{
+    
+    width: 100%;
+    height: 500px;
+    background-size: cover;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-image: url(./gaming4.jpg);
+    color: white;
+}
+.kata-kata{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 25px;
+}
