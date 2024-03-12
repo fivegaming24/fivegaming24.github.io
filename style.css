@@ -68,14 +68,7 @@ body{
     background-image: url(./gaming1.jpg);
     color: white;
 }
-.text{
-    width: 330px;
-    font-size: 18px;
-    border: 1px gray;
-    border-radius: 10px;
-    margin-left: 20px;
-    flex-flow: row wrap-reverse;
-}
+
 h1{
     color: black;
 }
