@@ -7,6 +7,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 <style>
+    /* Styles di sini */
     body {
         font-family: 'Press Start 2P', cursive;
         background-color: #1f1f1f;
@@ -176,14 +177,17 @@
     import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-analytics.js";
     
     const firebaseConfig = {
-        apiKey: "AIzaSyDcTf6anqbIPdNaFXjEaqqSxNhdYki4ZFM",
-        authDomain: "appchat-9bfeb.firebaseapp.com",
-        databaseURL: "https://appchat-9bfeb-default-rtdb.asia-southeast1.firebasedatabase.app",
-        projectId: "appchat-9bfeb",
-        storageBucket: "appchat-9bfeb.appspot.com",
-        messagingSenderId: "1012809974964",
-        appId: "1:1012809974964:web:a3f6ef42f8ca587c7883e1",
-        measurementId: "G-8XMGDY1VVF"
+        // Konfigurasi Firebase di sini
+        const firebaseConfig = {
+    apiKey: "AIzaSyDcTf6anqbIPdNaFXjEaqqSxNhdYki4ZFM",
+    authDomain: "appchat-9bfeb.firebaseapp.com",
+    databaseURL: "https://appchat-9bfeb-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "appchat-9bfeb",
+    storageBucket: "appchat-9bfeb.appspot.com",
+    messagingSenderId: "1012809974964",
+    appId: "1:1012809974964:web:ff967f83e2095e887883e1",
+    measurementId: "G-NYW7VX043F"
+  };
     };
 
     const app = initializeApp(firebaseConfig);
@@ -200,15 +204,25 @@
         const username = localStorage.getItem('username') || 'Guest';
 
         if (messageText !== "") {
-            const messagesRef = ref(database, 'messages');
-            const newMessageRef = push(messagesRef);
-            set(newMessageRef, {
-                username: username,
-                text: messageText,
-                timestamp: new Date().toISOString()
-            });
+            // Validasi karakter pesan
+            if (/^[a-zA-Z0-9-_,.!?() ]+$/.test(messageText)) {
+                const messagesRef = ref(database, 'messages');
+                const newMessageRef = push(messagesRef);
+                set(newMessageRef, {
+                    username: username,
+                    text: messageText,
+                    timestamp: new Date().toISOString()
+                }).catch(error => {
+                    console.error("Error sending message:", error);
+                    alert("Failed to send message. Please try again later.");
+                });
 
-            messageInput.value = "";
+                messageInput.value = "";
+            } else {
+                alert("Invalid characters in the message. Please try again.");
+            }
+        } else {
+            alert("Please enter a message.");
         }
     }
 
