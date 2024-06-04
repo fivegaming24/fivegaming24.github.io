@@ -57,27 +57,27 @@
         overflow-y: scroll;
         flex: 1;
     }
-    .message {
+    .messenger {
         margin-bottom: 15px;
     }
-    .message .user {
+    .messenger .user {
         font-weight: bold;
     }
-    .message .time {
+    .messenger .time {
         color: #888;
         font-size: 12px;
         margin-left: 10px;
     }
-    .message .text {
+    .messenger .text {
         background-color: #444;
         border-radius: 5px;
         padding: 10px;
         display: inline-block;
     }
-    .message .user-message {
+    .messenger .user-messenger {
         text-align: right;
     }
-    .message .user-message .text {
+    .messenger .user-messenger .text {
         background-color: #e91e63;
     }
     .chat-input {
@@ -151,7 +151,7 @@
 <div class="overlay" id="loginOverlay">
     <p>You must log in to access the chat.</p>
     <button onclick="redirectToLogin()">Go to Login</button>
-    <button onclick="skipLogin()">Lewati Login</button>
+    <button onclick="skipLogin()">Skip Login</button>
 </div>
 <div class="chat-container">
     <div class="chat-header">
@@ -162,7 +162,7 @@
         <!-- Chat messages will be displayed here -->
     </div>
     <div class="chat-input">
-        <input type="text" id="messageInput" placeholder="Tulis pesan...">
+        <input type="text" id="messageInput" placeholder="Write a message...">
         <button onclick="sendMessage()"><i class="fas fa-paper-plane"></i></button>
     </div>
 </div>
@@ -213,9 +213,9 @@
     function displayMessage(username, text, timestamp) {
         const chatBody = document.getElementById("chatBody");
         const messageDiv = document.createElement("div");
-        messageDiv.classList.add("message");
+        messageDiv.classList.add("messenger");
         const time = new Date(timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-        const userClass = username === localStorage.getItem('username') ? 'user-message' : '';
+        const userClass = username === localStorage.getItem('username') ? 'user-messenger' : '';
         messageDiv.innerHTML = `<div class="${userClass}"><span class="user">${username}</span><span class="time">${time}</span><div class="text">${text}</div></div>`;
         chatBody.appendChild(messageDiv);
         chatBody.scrollTop = chatBody.scrollHeight;
@@ -248,4 +248,3 @@
 </script>
 </body>
 </html>
-``
