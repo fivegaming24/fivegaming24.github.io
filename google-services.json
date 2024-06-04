@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "926360431672",
+    "project_id": "appchat-8963c",
+    "storage_bucket": "appchat-8963c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:926360431672:android:75ea00c5b703c434bd4acd",
+        "android_client_info": {
+          "package_name": "freediamon.kesug.com"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDEwWbafbaN3HBd63ntI1PLJB4bSIVsVCQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
