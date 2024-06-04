@@ -118,42 +118,9 @@
         color: #e91e63;
         text-decoration: none;
     }
-    .overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.8);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
-        color: #fff;
-        font-size: 20px;
-        z-index: 1000;
-    }
-    .overlay button {
-        padding: 10px 20px;
-        margin-top: 20px;
-        font-size: 16px;
-        color: #fff;
-        background-color: #e91e63;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-    }
-    .overlay button:hover {
-        background-color: #f8bbd0;
-    }
 </style>
 </head>
 <body>
-<div class="overlay" id="loginOverlay">
-    <p>You must log in to access the chat.</p>
-    <button onclick="redirectToLogin()">Go to Login</button>
-    <button onclick="skipLogin()">Skip Login</button>
-</div>
 <div class="chat-container">
     <div class="chat-header">
         <h2>FiveGaming Chat</h2>
@@ -170,24 +137,20 @@
 <div class="footer">by <a href="https://www.instagram.com/sabar__24?igshid=MWIwMHpxbzVyNmtrcA==" target="_blank">@sabar__24</a>
 <div class="version">Version 1.1</div>
 </div>
-
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
     import { getDatabase, ref, set, push, onChildAdded } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
     import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-analytics.js";
     
     const firebaseConfig = {
-        // Konfigurasi Firebase di sini
-        const firebaseConfig = {
-    apiKey: "AIzaSyDcTf6anqbIPdNaFXjEaqqSxNhdYki4ZFM",
-    authDomain: "appchat-9bfeb.firebaseapp.com",
-    databaseURL: "https://appchat-9bfeb-default-rtdb.asia-southeast1.firebasedatabase.app",
-    projectId: "appchat-9bfeb",
-    storageBucket: "appchat-9bfeb.appspot.com",
-    messagingSenderId: "1012809974964",
-    appId: "1:1012809974964:web:ff967f83e2095e887883e1",
-    measurementId: "G-NYW7VX043F"
-  };
+        apiKey: "AIzaSyDcTf6anqbIPdNaFXjEaqqSxNhdYki4ZFM",
+        authDomain: "appchat-9bfeb.firebaseapp.com",
+        databaseURL: "https://appchat-9bfeb-default-rtdb.asia-southeast1.firebasedatabase.app",
+        projectId: "appchat-9bfeb",
+        storageBucket: "appchat-9bfeb.appspot.com",
+        messagingSenderId: "1012809974964",
+        appId: "1:1012809974964:web:ff967f83e2095e887883e1",
+        measurementId: "G-NYW7VX043F"
     };
 
     const app = initializeApp(firebaseConfig);
@@ -204,7 +167,6 @@
         const username = localStorage.getItem('username') || 'Guest';
 
         if (messageText !== "") {
-            // Validasi karakter pesan
             if (/^[a-zA-Z0-9-_,.!?() ]+$/.test(messageText)) {
                 const messagesRef = ref(database, 'messages');
                 const newMessageRef = push(messagesRef);
@@ -245,22 +207,12 @@
 
     window.onload = function() {
         const username = localStorage.getItem('username');
-        const skipLogin = localStorage.getItem('skipLogin');
-        if (!username && !skipLogin) {
-            document.getElementById('loginOverlay').style.display = 'flex';
-        } else {
-            document.getElementById('loginOverlay').style.display = 'none';
+        if (!username) {
+            redirectToLogin();
         }
-    };
+    }
 
     function redirectToLogin() {
-        window.location.href = 'index.html';
+        window.location.href = "login.html";
     }
-
-    function skipLogin() {
-        localStorage.setItem('skipLogin', 'true');
-        document.getElementById('loginOverlay').style.display = 'none';
-    }
-</script>
-</body>
-</html>
+                    </script>
