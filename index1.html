@@ -144,7 +144,7 @@
     const firebaseConfig = {
         apiKey: "AIzaSyDcTf6anqbIPdNaFXjEaqqSxNhdYki4ZFM",
         authDomain: "appchat-9bfeb.firebaseapp.com",
-        databaseURL: "https://appchat-9bfeb-default-rtdb.asia-southeast1.firebasedatabase.app/",
+        databaseURL: "https://appchat-9bfeb-default-rtdb.asia-southeast1.firebasedatabase.app",
         projectId: "appchat-9bfeb",
         storageBucket: "appchat-9bfeb.appspot.com",
         messagingSenderId: "1012809974964",
@@ -160,7 +160,7 @@
         window.open('https://www.instagram.com/sabar__24?igshid=MWIwMHpxbzVyNmtrcA==', '_blank');
     }
 
-    function sendMessage() {
+    window.sendMessage = function() {
         const messageInput = document.getElementById("messageInput");
         const messageText = messageInput.value.trim();
         const username = localStorage.getItem('username') || 'Guest';
