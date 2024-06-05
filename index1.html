@@ -140,7 +140,8 @@
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
     import { getDatabase, ref, set, push, onChildAdded } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
     import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-analytics.js";
-    
+
+    // Firebase configuration
     const firebaseConfig = {
         apiKey: "AIzaSyDcTf6anqbIPdNaFXjEaqqSxNhdYki4ZFM",
         authDomain: "appchat-9bfeb.firebaseapp.com",
@@ -152,14 +153,17 @@
         measurementId: "G-NYW7VX043F"
     };
 
+    // Initialize Firebase
     const app = initializeApp(firebaseConfig);
     const analytics = getAnalytics(app);
     const database = getDatabase(app);
 
+    // Function to follow Instagram
     function follow() {
         window.open('https://www.instagram.com/sabar__24?igshid=MWIwMHpxbzVyNmtrcA==', '_blank');
     }
 
+    // Function to send message
     window.sendMessage = function() {
         const messageInput = document.getElementById("messageInput");
         const messageText = messageInput.value.trim();
@@ -187,6 +191,7 @@
         }
     }
 
+    // Function to display message
     function displayMessage(username, text, timestamp) {
         const chatBody = document.getElementById("chatBody");
         const messageDiv = document.createElement("div");
@@ -198,12 +203,14 @@
         chatBody.scrollTop = chatBody.scrollHeight;
     }
 
+    // Listening for new messages
     const messagesRef = ref(database, 'messages');
     onChildAdded(messagesRef, (snapshot) => {
         const message = snapshot.val();
         displayMessage(message.username, message.text, message.timestamp);
     });
 
+    // Redirect to login if username not found
     window.onload = function() {
         const username = localStorage.getItem('username');
         if (!username) {
