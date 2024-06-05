@@ -53,13 +53,13 @@
         background-color: #f8bbd0;
     }
     .chat-header .reset-btn {
+        display: none;
         background-color: #fff;
         color: #e91e63;
         padding: 5px 10px;
         border: none;
         border-radius: 5px;
         cursor: pointer;
-        display: none;
     }
     .chat-header .reset-btn:hover {
         background-color: #f8bbd0;
@@ -136,7 +136,7 @@
     <div class="chat-header">
         <h2>FiveGaming Chat</h2>
         <button class="follow-btn" onclick="follow()">Follow</button>
-        <button class="reset-btn" onclick="resetChat()">Reset Chat</button>
+        <button class="reset-btn" onclick="resetChat()" style="display:none;">Reset Chat</button>
     </div>
     <div class="chat-body" id="chatBody">
         <!-- Chat messages will be displayed here -->
@@ -147,7 +147,7 @@
     </div>
 </div>
 <div class="footer">by <a href="https://www.instagram.com/sabar__24?igshid=MWIwMHpxbzVyNmtrcA==" target="_blank">@sabar__24</a>
-<div class="version">Version 1.6</div>
+<div class="version">Version 1.7</div>
 </div>
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
@@ -155,7 +155,7 @@
     import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-analytics.js";
 
     // Firebase configuration
-    const firebaseConfig = {
+        const firebaseConfig = {
         apiKey: "AIzaSyDcTf6anqbIPdNaFXjEaqqSxNhdYki4ZFM",
         authDomain: "appchat-9bfeb.firebaseapp.com",
         databaseURL: "https://appchat-9bfeb-default-rtdb.asia-southeast1.firebasedatabase.app",
@@ -223,7 +223,7 @@
         displayMessage(message.username, message.text, message.timestamp);
     });
 
-    // Redirect to login if username not found
+   // Redirect to login if username not found
     window.onload = function() {
         const username = localStorage.getItem('username');
         if (!username) {
@@ -235,7 +235,7 @@
     }
 
     function redirectToLogin() {
-       window.location.href = "index.html";
+        window.location.href = "index.html";
     }
 
     // Function to reset chat (only for admin)
