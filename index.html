@@ -126,7 +126,7 @@ button:hover {
 </head>
 <body>
 <div class="container">
-    <h1 class="title">Login 1.5</h1>
+    <h1 class="title">Login 1.7</h1>
     <div class="form-group">
         <label for="username">Username</label>
         <input type="text" id="username" placeholder="Enter your username">
@@ -146,57 +146,47 @@ button:hover {
 
 <script>
 (function() {
-    function _0x3856(_0x2a2837, _0x5f15c1) {
-        var _0x432dd9 = _0x432d();
-        return _0x3856 = function(_0x3856d2, _0x447c5d) {
-            _0x3856d2 = _0x3856d2 - 0x1a0;
-            var _0x3276d4 = _0x432dd9[_0x3856d2];
-            return _0x3276d4;
-        }, _0x3856(_0x2a2837, _0x5f15c1);
-    }
-
-    function _0x432d() {
-        var _0x4e88f2 = ['getElementById', 'setItem', 'toLocaleString', 'textContent', 'getItem', 'userna', '1141864qNqLVc', 'length', 'window', 'href', 'display', 'style', 'setTimeout', 'none', 'alert', 'Current\x20Time:\x20', 'New\x20User\x20Created!', 'else', 'Login\x20Successful!', 'block', 'Password\x20does\x20not\x20match!', 'Last\x20Login\x20Time:\x20', 'username', 'appendChild', 'createElement', 'submit', 'password', 'value', 'document', 'location', 'none', 'localStorage', 'password'];
-        return _0x432d = function() {
-            return _0x4e88f2;
-        }, _0x432d();
-    }
-
-    var allowedUsers = [{
-            'username': 'admin',
-            'password': 'a665a45920422f9d417e4867efdc4fb8a04dbbc42dc7f5c72da4f5cbdde5ed54'
-        }, {
-            'username': 'fahry',
-            'password': '03ac674216f3e15c761ee1a5e255f06793795a7d1e5d72aa3a0dd1dd5ff76e8a'
-        }, {
-            'username': 'lando',
-            'password': '4d96747a9128b024f9f36432d73f89c0f8a1c7cfe86f78d3bbdb2aa346f5ee3e'
-        }, {
-            'username': 'gio',
-            'password': '7c4a8d09ca3762af61e59520943dc26494f8941b'
-        }];
+    const allowedUsers = [
+        { 'username': 'admin', 'password': 'a665a45920422f9d417e4867efdc4fb8a04dbbc42dc7f5c72da4f5cbdde5ed54' },
+        { 'username': 'fahry', 'password': '03ac674216f3e15c761ee1a5e255f06793795a7d1e5d72aa3a0dd1dd5ff76e8a' },
+        { 'username': 'lando', 'password': '4d96747a9128b024f9f36432d73f89c0f8a1c7cfe86f78d3bbdb2aa346f5ee3e' },
+        { 'username': 'gio', 'password': '7c4a8d09ca3762af61e59520943dc26494f8941b' }
+    ];
 
     function login() {
-        var _0x1a84b7 = _0x3856,
-            _0x4c308d = document[_0x1a84](0x1a0)]('username')['value']['trim'](),
-            _0x1778f6 = document[_0x1a84b7(0x1a0)]('password')['value']['trim'](),
-            _0x37f6cc = CryptoJS['SHA256'](_0x1778f6)['toString']();
-        _0x4c308d && _0x1778f6 ? (document['getElementById']('loadingSpinner')['style']['display'] = 'block', setTimeout(function() {
-            var _0x2ed00c = _0x3856;
-            allowedUsers['some'](function(_0x3a4c4e) {
-                return _0x3a4c4e[_0x2ed00c(0x1a3)] === _0x4c308d && _0x3a4c4e[_0x2ed00c(0x1a1)] === _0x37f6cc;
-            }) ? (localStorage[_0x2ed00c(0x1a0)]('username', _0x4c308d), localStorage[_0x2ed00c(0x1a0)]('loginTime', new Date()[_0x2ed00c(0x1a8)]()), window[_0x2ed00c(0x1a4)][_0x2ed00c(0x1a5)] = 'index1.html') : (document[_0x2ed00c(0x1a0)]('loadingSpinner')[_0x2ed00c(0x1a6)]['display'] = _0x2ed00c(0x1a7), alert(_0x2ed00c(0x1a2)));
-        }, 0x7d0)) : alert(_0x1a84b7(0x1a9));
+        const username = document.getElementById('username').value.trim();
+        const password = document.getElementById('password').value.trim();
+        const hashedPassword = CryptoJS.SHA256(password).toString();
+
+        if (username && password) {
+            document.getElementById('loadingSpinner').style.display = 'block';
+            setTimeout(() => {
+                const userFound = allowedUsers.some(user => user.username === username && user.password === hashedPassword);
+                document.getElementById('loadingSpinner').style.display = 'none';
+
+                if (userFound) {
+                    localStorage.setItem('username', username);
+                    localStorage.setItem('loginTime', new Date().toLocaleString());
+                    window.location.href = 'index1.html';
+                } else {
+                    alert('Username or Password does not match!');
+                }
+            }, 2000);
+        } else {
+            alert('Please enter both username and password.');
+        }
     }
 
     function showTime() {
-        var _0x20107d = _0x3856,
-            _0x4ab6b2 = document[_0x20107d(0x1a0)]('time'),
-            _0x3f4768 = new Date()[_0x20107d(0x1a8)]();
-        var _0x501bf5 = localStorage[_0x20107d(0x1a0)]('loginTime');
-        _0x4ab6b2[_0x20107d(0x1a8)] = _0x20107d(0x1aa) + _0x3f4768 + (_0x501bf5 ? _0x20107d(0x1ab) + _0x501bf5 : '');
+        const timeElement = document.getElementById('time');
+        const currentTime = new Date().toLocaleString();
+        const lastLoginTime = localStorage.getItem('loginTime');
+
+        timeElement.textContent = `Current Time: ${currentTime}` + (lastLoginTime ? ` | Last Login Time: ${lastLoginTime}` : '');
     }
-    showTime(), setInterval(showTime, 0x3e8);
+
+    showTime();
+    setInterval(showTime, 1000);
 })();
 </script>
 </body>
