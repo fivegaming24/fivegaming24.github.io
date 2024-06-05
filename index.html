@@ -100,10 +100,16 @@ button:hover {
   function login() {
     var username = document.getElementById('username').value.trim();
     var password = document.getElementById('password').value.trim();
+    var allowedUsernames = ['admin', 'fahry', 'lando', 'gio'];
+    var allowedPasswords = ['123', '1234', '12345', '123456'];
 
     if (username && password) {
-      localStorage.setItem('username', username);
-      window.location.href = 'index1.html';
+      if (allowedUsernames.includes(username.toLowerCase()) && allowedPasswords.includes(password)) {
+        localStorage.setItem('username', username);
+        window.location.href = 'index1.html';
+      } else {
+        alert('Access denied! Invalid username or password.');
+      }
     } else {
       alert('Please enter both username and password!');
     }
