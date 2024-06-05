@@ -52,6 +52,18 @@
     .chat-header .follow-btn:hover {
         background-color: #f8bbd0;
     }
+    .chat-header .reset-btn {
+        background-color: #fff;
+        color: #e91e63;
+        padding: 5px 10px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        display: none;
+    }
+    .chat-header .reset-btn:hover {
+        background-color: #f8bbd0;
+    }
     .chat-body {
         padding: 20px;
         overflow-y: scroll;
@@ -124,7 +136,7 @@
     <div class="chat-header">
         <h2>FiveGaming Chat</h2>
         <button class="follow-btn" onclick="follow()">Follow</button>
-        <button class="reset-btn" onclick="resetChat()" style="display:none;">Reset Chat</button>
+        <button class="reset-btn" onclick="resetChat()">Reset Chat</button>
     </div>
     <div class="chat-body" id="chatBody">
         <!-- Chat messages will be displayed here -->
@@ -223,11 +235,11 @@
     }
 
     function redirectToLogin() {
-        window.location.href = "index.html";
+       window.location.href = "index.html";
     }
 
     // Function to reset chat (only for admin)
-    function resetChat() {
+    window.resetChat = function() {
         const username = localStorage.getItem('username');
         if (username === 'admin') {
             const confirmReset = confirm("Are you sure you want to reset the chat? This action cannot be undone.");
@@ -235,6 +247,7 @@
                 const messagesRef = ref(database, 'messages');
                 remove(messagesRef).then(() => {
                     alert("Chat reset successful!");
+                    document.getElementById('chatBody').innerHTML = '';
                 }).catch((error) => {
                     console.error("Error resetting chat:", error);
                     alert("Failed to reset chat. Please try again later.");
