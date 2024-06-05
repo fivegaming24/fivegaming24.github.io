@@ -16,6 +16,7 @@ body {
     margin: 0;
     padding: 0;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     height: 100vh;
@@ -116,11 +117,16 @@ button:hover {
         transform: scale(1);
     }
 }
+
+#time {
+    margin-top: 20px;
+    font-size: 18px;
+}
 </style>
 </head>
 <body>
 <div class="container">
-    <h1 class="title">Login 1.5</h1>
+    <h1 class="title">Login 1.6</h1>
     <div class="form-group">
         <label for="username">Username</label>
         <input type="text" id="username" placeholder="Enter your username">
@@ -135,49 +141,74 @@ button:hover {
         <div></div>
         <div></div>
     </div>
+    <div id="time"></div>
 </div>
 
 <script>
-  // Precomputed SHA-256 hashes of allowed usernames
-  var allowedUsernames = [
-    '8c6976e5b5410415bde908bd4dee15dfb16beaff08f5f70a3b158e75671809f8', // admin
-    '3e2e87b3d20b798d8b7ff6a110f911d29da9f2a22b7e666057cfe5c7015d5932', // fahry
-    '4ffb9edb7381957755420f27f2cd8500594f1b998f1f0de61ed87fae9d4483a5', // lando
-    '13a0e5df1a0f370c92f2f12230fa579f15c1300125fe7a68320ef37a990ac13d'  // gio
-  ];
-
-  // Precomputed SHA-256 hashes of allowed passwords
-  var allowedPasswords = [
-    'a665a45920422f9d417e4867efdc4fb8a04dbbc42dc7f5c72da4f5cbdde5ed54', // 123
-    '03ac674216f3e15c761ee1a5e255f06793795a7d1e5d72aa3a0dd1dd5ff76e8a', // 1234
-    '4d96747a9128b024f9f36432d73f89c0f8a1c7cfe86f78d3bbdb2aa346f5ee3e', // 12345
-    '7c4a8d09ca3762af61e59520943dc26494f8941b'  // 123456
-  ];
-
-  function login() {
-    var username = document.getElementById('username').value.trim();
-    var password = document.getElementById('password').value.trim();
-
-    // Hash the input username and password
-    var hashedUsername = CryptoJS.SHA256(username).toString();
-    var hashedPassword = CryptoJS.SHA256(password).toString();
-
-    if (username && password) {
-      document.getElementById('loadingSpinner').style.display = 'block';
-      
-      setTimeout(function() {
-        if (allowedUsernames.includes(hashedUsername) && allowedPasswords.includes(hashedPassword)) {
-          localStorage.setItem('username', username);
-          window.location.href = 'index1.html';
-        } else {
-          document.getElementById('loadingSpinner').style.display = 'none';
-          alert('Access denied! Invalid username or password.');
+(function(_0x4f5a3b, _0x509c43) {
+    var _0x360e9a = _0x3856, _0x4b7b04 = _0x4f5a3b();
+    while (!![]) {
+        try {
+            var _0x17f53d = parseInt(_0x360e9a(0x1a7)) / 0x1 + parseInt(_0x360e9a(0x1a4)) / 0x2 * (-parseInt(_0x360e9a(0x1a2)) / 0x3) + parseInt(_0x360e9a(0x1a5)) / 0x4 * (parseInt(_0x360e9a(0x1a8)) / 0x5) + -parseInt(_0x360e9a(0x1a6)) / 0x6 + parseInt(_0x360e9a(0x1a9)) / 0x7 + parseInt(_0x360e9a(0x1a3)) / 0x8 * (-parseInt(_0x360e9a(0x1ac)) / 0x9) + -parseInt(_0x360e9a(0x1ab)) / 0xa;
+            if (_0x17f53d === _0x509c43) break;
+            else _0x4b7b04['push'](_0x4b7b04['shift']());
+        } catch (_0x33c522) {
+            _0x4b7b04['push'](_0x4b7b04['shift']());
         }
-      }, 2000); // Simulate a loading time of 2 seconds
-    } else {
-      alert('Please enter both username and password!');
     }
-  }
+}(_0x432d, 0x6e295));
+var allowedUsers = [{
+        'username': 'admin',
+        'password': 'a665a45920422f9d417e4867efdc4fb8a04dbbc42dc7f5c72da4f5cbdde5ed54'
+    }, {
+        'username': 'fahry',
+        'password': '03ac674216f3e15c761ee1a5e255f06793795a7d1e5d72aa3a0dd1dd5ff76e8a'
+    }, {
+        'username': 'lando',
+        'password': '4d96747a9128b024f9f36432d73f89c0f8a1c7cfe86f78d3bbdb2aa346f5ee3e'
+    }, {
+        'username': 'gio',
+        'password': '7c4a8d09ca3762af61e59520943dc26494f8941b'
+    }],
+    _0x23a4 = [allowedUsers];
+
+function login() {
+    var _0x1a84b7 = _0x3856,
+        _0x4c308d = document['getElementById']('username')['value']['trim'](),
+        _0x1778f6 = document['getElementById']('password')['value']['trim'](),
+        _0x37f6cc = CryptoJS['SHA256'](_0x1778f6)['toString']();
+    _0x4c308d && _0x1778f6 ? (document['getElementById']('loadingSpinner')['style']['display'] = 'block', setTimeout(function() {
+        var _0x2ed00c = _0x3856;
+        _0x23a4[0]['some'](function(_0x3a4c4e) {
+            return _0x3a4c4e['username'] === _0x4c308d && _0x3a4c4e['password'] === _0x37f6cc;
+        }) ? (localStorage['setItem']('username', _0x4c308d), localStorage['setItem']('loginTime', new Date()[_0x2ed00c(0x1a1)]()), window['location']['href'] = 'index1.html') : (document['getElementById']('loadingSpinner')['style']['display'] = 'none', alert('Access denied! Invalid username or password.'));
+    }, 0x7d0)) : alert('Please enter both username and password!');
+}
+
+function showTime() {
+    var _0x20107d = _0x3856,
+        _0x4ab6b2 = document[_0x20107d(0x1a0)]('time'),
+        _0x3f4768 = new Date()[_0x20107d(0x1a1)]();
+    var _0x501bf5 = localStorage[_0x20107d(0x1a0)]('loginTime');
+    _0x4ab6b2[_0x20107d(0x1a1)] = 'Current Time: ' + _0x3f4768 + (_0x501bf5 ? '<br>Last Login Time: ' + _0x501bf5 : '');
+}
+showTime(), setInterval(showTime, 1000);
+
+function _0x3856(_0x2a2837, _0x5f15c1) {
+    var _0x432dd9 = _0x432d();
+    return _0x3856 = function(_0x3856d2, _0x447c5d) {
+        _0x3856d2 = _0x3856d2 - 0x1a0;
+        var _0x3276d4 = _0x432dd9[_0x3856d2];
+        return _0x3276d4;
+    }, _0x3856(_0x2a2837, _0x5f15c1);
+}
+
+function _0x432d() {
+    var _0x4e88f2 = ['getElementById', 'setItem', 'toLocaleString', 'textContent', 'getItem', 'userna', '1141864qNqLVc', 'length', 'window', 'href', 'display', 'style', 'setTimeout', 'none', 'alert', 'Current\x20Time:\x20', 'New\x20User\x20Created!', 'else', 'Login\x20Successful!', 'block', 'Password\x20does\x20not\x20match!', 'Last\x20Login\x20Time:\x20', 'username', 'appendChild', 'createElement', 'submit', 'password', 'value', 'document', 'location', 'none', 'localStorage', 'password'];
+    return _0x432d = function() {
+        return _0x4e88f2;
+    }, _0x432d();
+}
 </script>
 </body>
 </html>
