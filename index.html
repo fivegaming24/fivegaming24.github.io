@@ -6,7 +6,6 @@
 <title>Login - FiveGaming</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
 <style>
 /* CSS styles */
 body {
@@ -126,7 +125,7 @@ button:hover {
 </head>
 <body>
 <div class="container">
-    <h1 class="title">Login 1.7</h1>
+    <h1 class="title">Login 1.8</h1>
     <div class="form-group">
         <label for="username">Username</label>
         <input type="text" id="username" placeholder="Enter your username">
@@ -147,27 +146,31 @@ button:hover {
 <script>
 (function() {
     const allowedUsers = [
-        { 'username': 'admin', 'password': 'a665a45920422f9d417e4867efdc4fb8a04dbbc42dc7f5c72da4f5cbdde5ed54' },
-        { 'username': 'fahry', 'password': '03ac674216f3e15c761ee1a5e255f06793795a7d1e5d72aa3a0dd1dd5ff76e8a' },
-        { 'username': 'lando', 'password': '4d96747a9128b024f9f36432d73f89c0f8a1c7cfe86f78d3bbdb2aa346f5ee3e' },
-        { 'username': 'gio', 'password': '7c4a8d09ca3762af61e59520943dc26494f8941b' }
+        { 'username': 'admin', 'password': '1234' },
+        { 'username': 'fahry', 'password': 'password' },
+        { 'username': 'lando', 'password': 'qwerty' },
+        { 'username': 'gio', 'password': 'letmein' }
     ];
 
     function login() {
         const username = document.getElementById('username').value.trim();
         const password = document.getElementById('password').value.trim();
-        const hashedPassword = CryptoJS.SHA256(password).toString();
 
         if (username && password) {
             document.getElementById('loadingSpinner').style.display = 'block';
             setTimeout(() => {
-                const userFound = allowedUsers.some(user => user.username === username && user.password === hashedPassword);
+                const userFound = allowedUsers.some(user => user.username === username && user.password === password);
                 document.getElementById('loadingSpinner').style.display = 'none';
 
                 if (userFound) {
-                    localStorage.setItem('username', username);
-                    localStorage.setItem('loginTime', new Date().toLocaleString());
-                    window.location.href = 'index1.html';
+                    if (!localStorage.getItem('username') && !localStorage.getItem('password')) {
+                        localStorage.setItem('username', username);
+                        localStorage.setItem('password', password);
+                        localStorage.setItem('loginTime', new Date().toLocaleString());
+                        window.location.href = 'index1.html';
+                    } else {
+                        alert('User already logged in. Please log out first.');
+                    }
                 } else {
                     alert('Username or Password does not match!');
                 }
