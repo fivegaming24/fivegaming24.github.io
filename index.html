@@ -1,218 +1,165 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Login - FiveGaming</title>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
-<style>
-/* CSS styles a */
-body {
-    font-family: 'Press Start 2P', cursive;
-    background-color: #1f1f1f;
-    color: #fff;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-}
-
-.container {
-    max-width: 400px;
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FiveGaming</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Press Start 2P', cursive;
+            margin: 0;
+            padding: 0;
+            background-color: #1a1a1a;
+            color: #ffffff;
+            overflow: hidden;
+        }
+        .container {
+            text-align: center;
+            padding: 50px;
+            position: relative;
+        }
+        .title-wrapper {
+            position: relative;
+        }
+        h1 {
+            color: #00ff00;
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+        .pixel-animal {
+            position: absolute;
+            top: -60px; /* Adjust this value to position the pixel animal correctly */
+            left: 0;
+            width: 50px; /* Adjust the size of the pixel animal */
+            height: 50px; /* Adjust the size of the pixel animal */
+            background: url('pixel.gif') no-repeat center center;
+            background-size: contain;
+            animation: moveAnimal 5s linear infinite;
+        }
+        .admin-names {
+            margin-bottom: 30px;
+            font-size: 20px;
+            color: #ff4500;
+            animation: moveAdmin 6s infinite alternate;
+        }
+        .button {
+            display: inline-block;
+            padding: 15px 30px;
+            background-color: #ff4500;
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 8px;
+            margin: 10px;
+            font-size: 18px;
+            transition: background-color 0.3s;
+        }
+        .button:hover {
+            background-color: #ff6a36;
+        }
+        .footer {
+    position: fixed;
+    bottom: 0;
     width: 100%;
-    padding: 20px;
-    background-color: #333;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    border-radius: 8px;
-    text-align: center;
-    position: relative;
+    background-color: #333333;
+    color: #ffffff;
+    padding: 5px 0; /* Adjusted padding */
+    text-align: center; /* Center the content */
+    font-size: 14px; /* Adjusted font size */
 }
+        .footer a {
+            color: #ffffff;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+        .chat-button {
+            background-color: #008CBA;
+        }
+        .chat-button:hover {
+            background-color: #005f76;
+        }
+        @keyframes moveAdmin {
+            0% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+            100% {
+                transform: translateY(0);
+            }
+        }
+        @keyframes moveAnimal {
+            0% {
+                left: 0;
+            }
+            50% {
+                left: calc(100% - 50px); /* Adjust 50px based on your GIF size */
+            }
+            100% {
+                left: 0;
+            }
+        }
 
-.title {
-    font-size: 24px;
-    margin-bottom: 20px;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-}
+        /* Responsive Styles */
 
-.form-group {
-    margin-bottom: 15px;
-}
+        /* For smaller screens */
+        @media only screen and (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+            h1 {
+                font-size: 36px;
+            }
+            .button {
+                font-size: 16px;
+                padding: 10px 20px;
+            }
+        }
 
-.form-group label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-}
-
-.form-group input {
-    width: 100%;
-    padding: 8px;
-    box-sizing: border-box;
-    font-size: 16px;
-    border: 1px solid #777;
-    border-radius: 4px;
-    background-color: #444;
-    color: #fff;
-    outline: none;
-}
-
-button {
-    display: block;
-    width: 100%;
-    padding: 10px;
-    margin-top: 20px;
-    font-size: 16px;
-    color: #fff;
-    background-color: #e91e63;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    transition: background-color 0.3s ease;
-}
-
-button:hover {
-    background-color: #f8bbd0;
-}
-
-.loading-spinner {
-    display: none;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    text-align: center;
-}
-
-.loading-spinner .logo {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    margin-bottom: 10px;
-    background: url('loading.jpg') no-repeat center center;
-    background-size: cover;
-}
-
-.loading-spinner .spinner {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.loading-spinner .spinner div {
-    width: 20px;
-    height: 20px;
-    margin: 0 5px;
-    background-color: #e91e63;
-    border-radius: 50%;
-    animation: bounce 1.2s infinite ease-in-out;
-}
-
-.loading-spinner .spinner div:nth-child(2) {
-    animation-delay: -0.4s;
-}
-
-.loading-spinner .spinner div:nth-child(3) {
-    animation-delay: -0.8s;
-}
-
-@keyframes bounce {
-    0%, 100% {
-        transform: scale(0);
-    }
-    50% {
-        transform: scale(1);
-    }
-}
-
-#time {
-    margin-top: 20px;
-    font-size: 18px;
-}
-</style>
+        /* For larger screens */
+        @media only screen and (min-width: 1200px) {
+            .container {
+                padding: 100px;
+            }
+            h1 {
+                font-size: 60px;
+            }
+            .button {
+                font-size: 20px;
+                padding: 20px 40px;
+            }
+        }
+    </style>
 </head>
 <body>
-<div class="container">
-    <h1 class="title">Login 1.2</h1>
-    <div class="form-group">
-        <label for="username">Username</label>
-        <input type="text" id="username" placeholder="Enter your username">
-    </div>
-    <div class="form-group">
-        <label for="password">Password</label>
-        <input type="password" id="password" placeholder="Enter your password">
-    </div>
-    <button type="button" onclick="login()">Login</button>
-    <div class="loading-spinner" id="loadingSpinner">
-        <div class="logo"></div>
-        <div class="spinner">
-            <div></div>
-            <div></div>
-            <div></div>
+    <div class="container">
+        <div class="title-wrapper">
+            <h1>Welcome to FiveGaming</h1>
+            <div class="pixel-animal"></div>
         </div>
+        <div class="admin-names" id="adminNames">
+            <p>Admins: <span id="adminName">sabar24</span></p>
+        </div>
+        <a href="index2.html" class="button">Chattingan</a>
+        <a href="" class="button">WhatsApp</a>
+        <a href="https://instagram.com/fivegaming" class="button">Instagram</a>
     </div>
-    <div id="time"></div>
-</div>
+    <div class="footer">
+        <a href="g">by,Sabar 24</a>
+        <a href="https://wa.me/your_whatsapp_number" class="button">Chat with Admin<br>1.2</a>
+    </div>
 
-<script>
-  // Plain text usernames and passwords
-  var allowedUsers = [
-    { username: 'admin', password: '123456' },
-    { username: 'fahry', password: 'Tole123' },
-    { username: 'lando', password: 'lando' },
-    { username: 'gio', password: '1234' },
-{ username: 'trepis', password: 'trepis' },
-  ];
+    <script>
+        const adminNames = ["sabar24", "Fahri", "Orlando"];
+        let currentIndex = 0;
 
-  function login() {
-    var username = document.getElementById('username').value.trim();
-    var password = document.getElementById('password').value.trim();
-
-    if (username && password) {
-      document.getElementById('loadingSpinner').style.display = 'block';
-      
-      setTimeout(function() {
-        var userFound = allowedUsers.some(function(user) {
-          return user.username === username && user.password === password;
-        });
-
-        if (userFound) {
-          localStorage.setItem('username', username);
-          var currentTime = new Date().toLocaleString();
-          localStorage.setItem('loginTime', currentTime);
-          window.location.href = 'index1.html';
-        } else {
-          document.getElementById('loadingSpinner').style.display = 'none';
-          alert('Access denied! Invalid username or password.');
+        function changeAdminName() {
+            document.getElementById("adminName").innerText = adminNames[currentIndex];
+            currentIndex = (currentIndex + 1) % adminNames.length;
         }
-      }, 2000); // Simulate a loading time of 2 seconds
-    } else {
-      alert('Please enter both username and password!');
-    }
-  }
 
-  function showTime() {
-    var timeElement = document.getElementById('time');
-    var currentTime = new Date().toLocaleString();
-    timeElement.textContent = 'Current Time: ' + currentTime;
-
-    var lastLoginTime = localStorage.getItem('loginTime');
-    if (lastLoginTime) {
-      timeElement.textContent += '\nLast Login Time: ' + lastLoginTime;
-    }
-  }
-
-  showTime();
-  setInterval(showTime, 1000); // Update the time every second
-</script>
+        setInterval(changeAdminName, 3000);
+    </script>
 </body>
 </html>
