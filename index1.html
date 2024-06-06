@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>FiveGaming Chat</title>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 <style>
@@ -26,6 +27,7 @@
         flex: 1;
         display: flex;
         flex-direction: column;
+        position: relative;
     }
     .chat-header {
         padding: 15px;
@@ -41,7 +43,7 @@
         margin: 0;
         font-size: 24px;
     }
-    .chat-header .follow-btn {
+    .chat-header .menu-btn {
         background-color: #fff;
         color: #e91e63;
         padding: 5px 10px;
@@ -49,19 +51,7 @@
         border-radius: 5px;
         cursor: pointer;
     }
-    .chat-header .follow-btn:hover {
-        background-color: #f8bbd0;
-    }
-    .chat-header .reset-btn {
-        display: none;
-        background-color: #fff;
-        color: #e91e63;
-        padding: 5px 10px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-    }
-    .chat-header .reset-btn:hover {
+    .chat-header .menu-btn:hover {
         background-color: #f8bbd0;
     }
     .chat-body {
@@ -129,14 +119,74 @@
         color: #e91e63;
         text-decoration: none;
     }
+    .menu-btn {
+        position: fixed;
+        top: 20px;
+        left: 20px;
+        background-color: #e91e63;
+        color: #fff;
+        border: none;
+        font-size: 24px;
+        padding: 10px;
+        cursor: pointer;
+        border-radius: 5px;
+        z-index: 999;
+    }
+    .menu-btn:hover {
+        background-color: #d81b60;
+    }
+    .sidebar {
+        position: fixed;
+        top: 0;
+        right: -200px;
+        width: 200px;
+        height: 100%;
+        background-color: #28282d;
+        transition: right 0.3s;
+        z-index: 998;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding-top: 60px;
+    }
+    .sidebar button {
+        width: 80%;
+        padding: 10px;
+        margin: 10px 0;
+        background-color: #e91e63;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+        font-size: 16px;
+        border-radius: 5px;
+    }
+    .sidebar button:hover {
+        background-color: #d81b60;
+    }
+    .close-btn {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        background-color: transparent;
+        color: #fff;
+        border: none;
+        font-size: 24px;
+        cursor: pointer;
+    }
 </style>
 </head>
 <body>
+<button class="menu-btn" onclick="toggleSidebar()">&#9776;</button> <!-- Tombol menu -->
+<div class="sidebar" id="sidebar">
+    <button onclick="window.open('https://www.instagram.com/fivegaming_24', '_blank')">Instagram</button>
+    <button onclick="window.open('https://chat.whatsapp.com/FTQIH4z6u5GKuB9I02UAyZ', '_blank')">WhatsApp</button>
+    <button class="reset-btn" onclick="resetChat()">Reset Chat</button>
+    <button class="close-btn" onclick="closeSidebar()">&times;</button> <!-- Tombol close -->
+</div>
+
 <div class="chat-container">
     <div class="chat-header">
         <h2>FiveGaming Chat</h2>
-        <button class="follow-btn" onclick="follow()">Follow</button>
-        <button class="reset-btn" onclick="resetChat()" style="display:none;">Reset Chat</button>
     </div>
     <div class="chat-body" id="chatBody">
         <!-- Chat messages will be displayed here -->
@@ -146,9 +196,11 @@
         <button onclick="sendMessage()"><i class="fas fa-paper-plane"></i></button>
     </div>
 </div>
+
 <div class="footer">by <a href="https://www.instagram.com/sabar__24?igshid=MWIwMHpxbzVyNmtrcA==" target="_blank">@sabar__24</a>
-<div class="version">Version 1.5</div>
+    <div class="version">Version 1.1</div>
 </div>
+
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
     import { getDatabase, ref, set, push, onChildAdded, remove } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
@@ -171,11 +223,6 @@
     const analytics = getAnalytics(app);
     const database = getDatabase(app);
 
-    // Function to follow Instagram
-    function follow() {
-        window.open('https://www.instagram.com/sabar__24?igshid=MWIwMHpxbzVyNmtrcA==', '_blank');
-    }
-
     // Function to send message
     window.sendMessage = function() {
         const messageInput = document.getElementById("messageInput");
@@ -183,7 +230,7 @@
         const username = localStorage.getItem('username') || 'Guest';
 
         if (messageText !== "") {
-            if (/^[a-zA-Z0-9-_,.!?() ]+$/.test(messageText) || /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/.test(messageText)) {
+            if (/^[a-zA-Z0-9-_,.!?() ]+$/.test(messageText)) {
                 const messagesRef = ref(database, 'messages');
                 const newMessageRef = push(messagesRef);
                 set(newMessageRef, {
@@ -203,8 +250,7 @@
             alert("Please enter a message.");
         }
     }
-
-    // Function to display message
+// Function to display message
     function displayMessage(username, text, timestamp) {
         const chatBody = document.getElementById("chatBody");
         const messageDiv = document.createElement("div");
@@ -247,7 +293,6 @@
                 const messagesRef = ref(database, 'messages');
                 remove(messagesRef).then(() => {
                     alert("Chat reset successful!");
-                    document.getElementById('chatBody').innerHTML = '';
                 }).catch((error) => {
                     console.error("Error resetting chat:", error);
                     alert("Failed to reset chat. Please try again later.");
@@ -257,6 +302,30 @@
             alert("You don't have permission to reset the chat!");
         }
     }
+window.onload = function() {
+    const username = localStorage.getItem('username');
+    const resetBtn = document.querySelector('.reset-btn');
+    if (!username || username === 'admin') {
+        resetBtn.style.display = 'block';
+    } else {
+        resetBtn.style.display = 'none';
+    }
+}
+
+    // Function to toggle sidebar
+    window.toggleSidebar = function() {
+        const sidebar = document.getElementById('sidebar');
+        if (sidebar.style.right === '0px') {
+            sidebar.style.right = '-200px';
+        } else {
+            sidebar.style.right = '0px';
+        }
+    }
+
+    window.closeSidebar = function() {
+        document.getElementById('sidebar').style.right = '-200px';
+    }
 </script>
 </body>
 </html>
+   
