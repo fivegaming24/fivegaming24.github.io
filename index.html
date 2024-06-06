@@ -44,7 +44,7 @@
             animation: moveAdmin 6s infinite alternate;
         }
         .button {
-            display: inline-block;
+            display: none; /* Initially hide all buttons */
             padding: 15px 30px;
             background-color: #ff4500;
             color: #ffffff;
@@ -58,15 +58,15 @@
             background-color: #ff6a36;
         }
         .footer {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    background-color: #333333;
-    color: #ffffff;
-    padding: 5px 0; /* Adjusted padding */
-    text-align: center; /* Center the content */
-    font-size: 14px; /* Adjusted font size */
-}
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background-color: #333333;
+            color: #ffffff;
+            padding: 5px 0; /* Adjusted padding */
+            text-align: center; /* Center the content */
+            font-size: 14px; /* Adjusted font size */
+        }
         .footer a {
             color: #ffffff;
             text-decoration: none;
@@ -77,6 +77,38 @@
         }
         .chat-button:hover {
             background-color: #005f76;
+        }
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            flex-direction: column; /* Arrange buttons in a column */
+        }
+        .overlay .button {
+            display: inline-block;
+            margin: 10px;
+        }
+        .close-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: #ff4500;
+            color: #ffffff;
+            padding: 10px 20px;
+            font-size: 18px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        .close-button:hover {
+            background-color: #ff6a36;
         }
         @keyframes moveAdmin {
             0% {
@@ -144,9 +176,18 @@
         <a href="index2.html" class="button">Chattingan</a>
         <a href="https://chat.whatsapp.com/BuM2FQv09433xgQgfgKmxS" class="button">WhatsApp</a>
         <a href="https://www.instagram.com/fivegaming_24" class="button">Instagram</a>
+        <a href="https://discord.gg/your-discord-link" class="button">Discord</a>
+        <a href="#" id="menuButton" class="button">Menu</a>
+    </div>
+    <div class="overlay" id="overlay">
+        <button class="close-button" id="closeButton">Close</button>
+        <a href="index2.html" class="button">Chattingan</a>
+        <a href="https://chat.whatsapp.com/BuM2FQv09433xgQgfgKmxS" class="button">WhatsApp</a>
+        <a href="https://www.instagram.com/fivegaming_24" class="button">Instagram</a>
+        <a href="https://discord.gg/your-discord-link" class="button">Discord</a>
     </div>
     <div class="footer">
-        <a href="https://www.instagram.com/sabar__24?utm_source=qr&igsh=MWIwMHpxbzVyNmtrcA==">by,Sabar 24</a>
+        <a href="https://www.instagram.com/sabar__24?utm_source=qr&igsh=MWIwMHpxbzVyNmtrcA==">by, Sabar 24</a>
         <a href="https://chat.whatsapp.com/GZ5m86ByDKr672plolucOw" class="button">Chat with Admin<br>1.2</a>
     </div>
 
@@ -160,6 +201,55 @@
         }
 
         setInterval(changeAdminName, 3000);
+
+        const buttons = document.querySelectorAll('.container .button:not(#menuButton)');
+        let buttonIndex = 0;
+
+        function showButton() {
+            buttons.forEach(button => button.style.display = 'none');
+            buttons[buttonIndex].style.display = 'inline-block';
+            buttonIndex = (buttonIndex + 1) % buttons.length;
+        }
+
+        setInterval(showButton, 2000); // Change every 2 seconds
+
+        const overlay = document.getElementById('overlay');
+        const menuButton = document.getElementById('menuButton');
+        const closeButton = document.getElementById('closeButton');
+        let overlayTimeout;
+
+        buttons.forEach(button => {
+            button.addEventListener('mouseover', () => {
+                overlay.style.display = 'flex';
+                clearTimeout(overlayTimeout);
+                overlayTimeout = setTimeout(() => {
+                    overlay.style.display = 'none';
+                }, 5000);
+            });
+        });
+
+        overlay.addEventListener('mouseover', () => {
+            clearTimeout(overlayTimeout);
+        });
+
+        overlay.addEventListener('mouseout', () => {
+            overlayTimeout = setTimeout(() => {
+                overlay.style.display = 'none';
+            }, 5000);
+        });
+
+        menuButton.addEventListener('click', () => {
+            overlay.style.display = 'flex';
+            clearTimeout(overlayTimeout);
+            overlayTimeout = setTimeout(() => {
+                overlay.style.display = 'none';
+            }, 5000);
+        });
+
+        closeButton.addEventListener('click', () => {
+            overlay.style.display = 'none';
+            clearTimeout(overlayTimeout);
+        });
     </script>
 </body>
 </html>
