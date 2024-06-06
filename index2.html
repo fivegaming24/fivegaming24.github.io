@@ -142,7 +142,7 @@ button:hover {
 </head>
 <body>
 <div class="container">
-    <h1 class="title">Login 1.2</h1>
+    <h1 class="title">Login 1.3</h1>
     <div class="form-group">
         <label for="username">Username</label>
         <input type="text" id="username" placeholder="Enter your username">
@@ -164,15 +164,14 @@ button:hover {
 </div>
 
 <script>
-  // Plain text usernames and passwords
   var allowedUsers = [
     { username: 'admin', password: '123456' },
     { username: 'fahry', password: 'Tole123' },
     { username: 'lando', password: 'lando' },
     { username: 'gio', password: '1234' },
-{ username: 'trepis', password: 'trepis' },
-{ username: 'Junior', password: 'J__R' },
-{ username: 'rukyry', password: 'mustari012' },
+    { username: 'trepis', password: 'trepis' },
+    { username: 'Junior', password: 'J__R' },
+    { username: 'rukyry', password: 'mustari012' },
   ];
 
   function login() {
@@ -193,8 +192,24 @@ button:hover {
           localStorage.setItem('loginTime', currentTime);
           window.location.href = 'index1.html';
         } else {
-          document.getElementById('loadingSpinner').style.display = 'none';
-          alert('Access denied! Invalid username or password.');
+          var existingUsers = allowedUsers.map(function(user) {
+            return user.username;
+          });
+
+          if (existingUsers.includes(username)) {
+            var newUser = 'user';
+            var userNumber = existingUsers.filter(function(name) {
+              return name.startsWith('user');
+            }).length + 1;
+            username = newUser + userNumber;
+          } else {
+            username = 'user1';
+          }
+
+          localStorage.setItem('username', username);
+          var currentTime = new Date().toLocaleString();
+          localStorage.setItem('loginTime', currentTime);
+          window.location.href = 'index1.html';
         }
       }, 2000); // Simulate a loading time of 2 seconds
     } else {
