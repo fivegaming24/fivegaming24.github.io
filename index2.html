@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login - FiveGaming</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+<style>
+/* CSS styles a */
+body {
+    font-family: 'Press Start 2P', cursive;
+    background-color: #1f1f1f;
+    color: #fff;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.container {
+    max-width: 400px;
+    width: 100%;
+    padding: 20px;
+    background-color: #333;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    border-radius: 8px;
+    text-align: center;
+    position: relative;
+}
+
+.title {
+    font-size: 24px;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+    font-size: 16px;
+    border: 1px solid #777;
+    border-radius: 4px;
+    background-color: #444;
+    color: #fff;
+    outline: none;
+}
+
+button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-top: 20px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #e91e63;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #f8bbd0;
+}
+
+.loading-spinner {
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.loading-spinner .logo {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+    background: url('loading.jpg') no-repeat center center;
+    background-size: cover;
+}
+
+.loading-spinner .spinner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.loading-spinner .spinner div {
+    width: 20px;
+    height: 20px;
+    margin: 0 5px;
+    background-color: #e91e63;
+    border-radius: 50%;
+    animation: bounce 1.2s infinite ease-in-out;
+}
+
+.loading-spinner .spinner div:nth-child(2) {
+    animation-delay: -0.4s;
+}
+
+.loading-spinner .spinner div:nth-child(3) {
+    animation-delay: -0.8s;
+}
+
+@keyframes bounce {
+    0%, 100% {
+        transform: scale(0);
+    }
+    50% {
+        transform: scale(1);
+    }
+}
+
+#time {
+    margin-top: 20px;
+    font-size: 18px;
+}
+</style>
+</head>
+<body>
+<div class="container">
+    <h1 class="title">Login 1.2</h1>
+    <div class="form-group">
+        <label for="username">Username</label>
+        <input type="text" id="username" placeholder="Enter your username">
+    </div>
+    <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" placeholder="Enter your password">
+    </div>
+    <button type="button" onclick="login()">Login</button>
+    <div class="loading-spinner" id="loadingSpinner">
+        <div class="logo"></div>
+        <div class="spinner">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+    <div id="time"></div>
+</div>
+
+<script>
+  // Plain text usernames and passwords
+  var allowedUsers = [
+    { username: 'admin', password: '123456' },
+    { username: 'fahry', password: 'Tole123' },
+    { username: 'lando', password: 'lando' },
+    { username: 'gio', password: '1234' },
+{ username: 'trepis', password: 'trepis' },
+  ];
+
+  function login() {
+    var username = document.getElementById('username').value.trim();
+    var password = document.getElementById('password').value.trim();
+
+    if (username && password) {
+      document.getElementById('loadingSpinner').style.display = 'block';
+      
+      setTimeout(function() {
+        var userFound = allowedUsers.some(function(user) {
+          return user.username === username && user.password === password;
+        });
+
+        if (userFound) {
+          localStorage.setItem('username', username);
+          var currentTime = new Date().toLocaleString();
+          localStorage.setItem('loginTime', currentTime);
+          window.location.href = 'index1.html';
+        } else {
+          document.getElementById('loadingSpinner').style.display = 'none';
+          alert('Access denied! Invalid username or password.');
+        }
+      }, 2000); // Simulate a loading time of 2 seconds
+    } else {
+      alert('Please enter both username and password!');
+    }
+  }
+
+  function showTime() {
+    var timeElement = document.getElementById('time');
+    var currentTime = new Date().toLocaleString();
+    timeElement.textContent = 'Current Time: ' + currentTime;
+
+    var lastLoginTime = localStorage.getItem('loginTime');
+    if (lastLoginTime) {
+      timeElement.textContent += '\nLast Login Time: ' + lastLoginTime;
+    }
+  }
+
+  showTime();
+  setInterval(showTime, 1000); // Update the time every second
+</script>
+</body>
+</html>
