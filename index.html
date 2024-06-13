@@ -1,255 +1,283 @@
+
+
+
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FiveGaming</title>
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Press Start 2P', cursive;
-            margin: 0;
-            padding: 0;
-            background-color: #1a1a1a;
-            color: #ffffff;
-            overflow: hidden;
-        }
-        .container {
-            text-align: center;
-            padding: 50px;
-            position: relative;
-        }
-        .title-wrapper {
-            position: relative;
-        }
-        h1 {
-            color: #00ff00;
-            font-size: 48px;
-            margin-bottom: 20px;
-        }
-        .pixel-animal {
-            position: absolute;
-            top: -60px; /* Adjust this value to position the pixel animal correctly */
-            left: 0;
-            width: 50px; /* Adjust the size of the pixel animal */
-            height: 50px; /* Adjust the size of the pixel animal */
-            background: url('pixel.gif') no-repeat center center;
-            background-size: contain;
-            animation: moveAnimal 5s linear infinite;
-        }
-        .admin-names {
-            margin-bottom: 30px;
-            font-size: 20px;
-            color: #ff4500;
-            animation: moveAdmin 6s infinite alternate;
-        }
-        .button {
-            display: none; /* Initially hide all buttons */
-            padding: 15px 30px;
-            background-color: #ff4500;
-            color: #ffffff;
-            text-decoration: none;
-            border-radius: 8px;
-            margin: 10px;
-            font-size: 18px;
-            transition: background-color 0.3s;
-        }
-        .button:hover {
-            background-color: #ff6a36;
-        }
-        .footer {
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-            background-color: #333333;
-            color: #ffffff;
-            padding: 5px 0; /* Adjusted padding */
-            text-align: center; /* Center the content */
-            font-size: 14px; /* Adjusted font size */
-        }
-        .footer a {
-            color: #ffffff;
-            text-decoration: none;
-            margin: 0 10px;
-        }
-        .chat-button {
-            background-color: #008CBA;
-        }
-        .chat-button:hover {
-            background-color: #005f76;
-        }
-        .overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            flex-direction: column; /* Arrange buttons in a column */
-        }
-        .overlay .button {
-            display: inline-block;
-            margin: 10px;
-        }
-        .close-button {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background-color: #ff4500;
-            color: #ffffff;
-            padding: 10px 20px;
-            font-size: 18px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-        }
-        .close-button:hover {
-            background-color: #ff6a36;
-        }
-        @keyframes moveAdmin {
-            0% {
-                transform: translateY(0);
-            }
-            50% {
-                transform: translateY(-10px);
-            }
-            100% {
-                transform: translateY(0);
-            }
-        }
-        @keyframes moveAnimal {
-            0% {
-                left: 0;
-            }
-            50% {
-                left: calc(100% - 50px); /* Adjust 50px based on your GIF size */
-            }
-            100% {
-                left: 0;
-            }
-        }
+   <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <meta content="" name="description">
+  <meta content="" name="keywords">
 
-        /* Responsive Styles */
+  <title>Home SMK NEGERI 2 MANADO</title>
+  <!-- Favicons -->
+  <link rel="icon" type="image/x-icon" href="uploads/pengaturan/favicon1696658474.png">
+  
 
-        /* For smaller screens */
-        @media only screen and (max-width: 600px) {
-            .container {
-                padding: 20px;
-            }
-            h1 {
-                font-size: 36px;
-            }
-            .button {
-                font-size: 16px;
-                padding: 10px 20px;
-            }
-        }
+  
 
-        /* For larger screens */
-        @media only screen and (min-width: 1200px) {
-            .container {
-                padding: 100px;
-            }
-            h1 {
-                font-size: 60px;
-            }
-            .button {
-                font-size: 20px;
-                padding: 20px 40px;
-            }
-        }
-    </style>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Roboto:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Courgette&display=swap" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="assets/vendor/animate.css/animate.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+  <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+  <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+  <!-- Data Tables CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
+  <!-- Data Table CSS -->
+  <link rel='stylesheet' href='https://cdn.datatables.net/1.13.5/css/dataTables.bootstrap5.min.css'>
+  <!-- Font Awesome CSS -->
+  <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css'>
+
+  <!-- Template Main CSS File -->
+  <link href="assets/css/style.css" rel="stylesheet">
+  <link href="assets/css/hover-min.css" rel="stylesheet">
+  <link href="assets/css/artikel.css" rel="stylesheet">
+  <link href="assets/css/bkk.css" rel="stylesheet">
+  <link href="assets/css/kombel.css" rel="stylesheet">
+  <link href="assets/css/ekskul.css" rel="stylesheet">
+  <link href="assets/css/guru.css" rel="stylesheet">
+  <link href="assets/css/galeri.css" rel="stylesheet">
+  <link href="assets/css/identitas.css" rel="stylesheet">
+  <link href="assets/css/konsen-keahlian.css" rel="stylesheet">
+  <link href="assets/css/kontak.css" rel="stylesheet">
+  <link href="assets/css/lsp.css" rel="stylesheet">
+  <link href="assets/css/osis.css" rel="stylesheet">
+  <link href="assets/css/pimpinan.css" rel="stylesheet">
+  <link href="assets/css/prestasi.css" rel="stylesheet">
+  <link href="assets/css/prog-keahlian.css" rel="stylesheet">
+  <link href="assets/css/sarana.css" rel="stylesheet">
+  <link href="assets/css/tefa.css" rel="stylesheet">
+  <link href="assets/css/visi_misi.css" rel="stylesheet">
+  <link href="assets/css/blank.css" rel="stylesheet">
+  
+
+  
 </head>
+
+
+
 <body>
+  <!-- ======= Header ======= -->
+  <header id="header" class="fixed-top d-flex align-items-center">
+    <div class="container d-flex align-items-center justify-content-between">
+      <!-- <h1 class="logo"><a href="index.html">SMKn 2 MANADO</a></h1> -->
+      <a href="index" class="logo"><img src="uploads/pengaturan/logo1699271774.png" alt="" class="img-fluid hvr-grow"></a>
+      <nav id="navbar" class="navbar">
+        <ul>
+          <li><a  class="nav-link scrollto" href="index">Home</a></li>
+          <li class="dropdown"><a class="active" href="#"><span>Profil</span> <i class="bi bi-chevron-down"></i></a>
+            <ul>
+              <li><a href="identitas">Sejarah Sekolah</a></li>
+              <li><a href="visi_misi">Visi Dan Misi</a></li>
+            </ul>
+          </li>
+          <li class="dropdown"><a  href="#"><span>Akademik</span> <i class="bi bi-chevron-down"></i></a>
+            <ul>
+              <li><a href="sarana">Sarana Prasarana</a></li>
+              <li><a href="ekskul">Ekstrakulikuler</a></li>
+              <li><a href="prestasi">Prestasi</a></li>
+            </ul>
+          </li>
+          <!-- <li><a class="nav-link scrollto " href="artikel.php">Artikel</a></li> -->
+          <li class="dropdown"><a  href="#"><span>Staff</span> <i class="bi bi-chevron-down"></i></a>
+            <ul>
+              <li><a href="pimpinan">Pimpinan</a></li>
+              <li><a href="guru">Guru</a></li>
+            </ul>
+          </li>
+          <li class="dropdown"><a  href="#"><span>Prog & Konsentrasi Keahlian</span> <i class="bi bi-chevron-down"></i></a>
+            <ul>
+              <li><a href="prog-keahlian">Program Keahlian</a></li>
+              <li><a href="konsentrasi-keahlian">Konsentrasi Keahlian</a></li>
+            </ul>
+          </li>
+          <li class="dropdown"><a  href="#"><span>Lainnya</span> <i class="bi bi-chevron-down"></i></a>
+            <ul>
+              <li><a href="bkk">BKK</a></li>
+              <li><a href="tefa">TEFA</a></li>
+              <li><a href="lsp">LSP</a></li>
+              <li><a href="berita">Berita</a></li>
+              <li><a href="kombel">Kombel</a></li>
+              <li><a href="organisasi">Organisasi</a></li>
+              <li><a href="galeri">Galeri</a></li>
+            </ul>
+          </li>
+          
+          <li><a  class="nav-link scrollto" href="kontak">Kontak</a></li>
+          <!-- <li><a class="getstarted scrollto" href="#about">Get Started</a></li> -->
+        </ul>
+        <i class="bi bi-list mobile-nav-toggle"></i>
+      </nav><!-- .navbar -->
+
+    </div>
+  </header>
+
+  
+  <!-- End Header -->
+  <main id="main" style="margin-top: 100px;">
+
+
+
+    <section class="inner-page">
+      <div class="container">
+    <!-- ======= Team Section ======= -->
+    <section id="tentang" class="tentang">
+      <div class="container">
+
+        <div class="section-title pt-3">
+          <h2 class="mt-5">SEJARAH SMK NEGERI 2 MANADO</h2>
+        </div>
+
+        <div class="row">
+          <img style="border-radius: 24px; padding: 10px;" src="uploads/pengaturan/sekolah.jpg" alt="">
+        </div>
+
+        <div class="row">
+
+          <div class="col-lg-12 pt-3 pt-lg-0 content mt-4">
+            <p class="fst-italic graf">
+            SMK Negeri 2 Manado, Berdiri Pada Tahun 1975, Adalah Sebuah Lembaga Pendidikan Yang Bermula Dari Tekad Dan Semangat Para Pendiri Yang Ingin Memberikan Pendidikan Berkualitas Kepada Masyarakat Manado. Setelah Mengumpulkan Dana Dan Sumber Daya Yang Diperlukan, Pembangunan Fisik Sekolah Dimulai Pada 10 Mei 1975, Meskipun Menghadapi Berbagai Tantangan. Namun, Dengan Semangat Tak Kenal Menyerah, Bangunan Sekolah Akhirnya Selesai Dibangun Dan Diresmikan Pada 20 Januari 1976.
+
+
+Sekolah Ini Awalnya Dimulai Dengan Sejumlah Siswa Dan Staf Pengajar Yang Penuh Semangat, Tetapi Seiring Berjalannya Waktu, SMK Negeri 2 Manado Berkembang Menjadi Pusat Pendidikan Yang Dihormati Di Wilayah Ini. Dengan Program-program Pendidikan Berkualitas, Fasilitas Yang Terus Diperluas, Dan Kepemimpinan Yang Beragam, Sekolah Ini Telah Melahirkan Banyak Lulusan Sukses. SMK Negeri 2 Manado Berkomitmen Untuk Terus Memberikan Pendidikan Unggul Dan Mendukung Perkembangan Siswa, Menjadikan Dirinya Sebagai Lembaga Pendidikan Yang Memotivasi Dan Mempersiapkan Generasi Muda Untuk Masa Depan Yang Cerah.            </p>
+
+            <!-- <ul class="mt-4 ms-5">
+              <li><i class='bx bx-chevron-right'></i><strong>NPSN :</strong> 40102758</li>
+              <li><i class='bx bx-chevron-right'></i><strong>Status :</strong> Negeri</li>
+              <li><i class='bx bx-chevron-right'></i><strong>Bentuk Pendidikan :</strong> SMK</li>
+              <li><i class='bx bx-chevron-right'></i><strong>Status Kepemilikan :</strong> Pemerintah Daerah</li>
+              <li><i class='bx bx-chevron-right'></i><strong>SK Pendirian Sekolah :</strong> No:1961/3.DJEP.D/1961</li>
+              <li><i class='bx bx-chevron-right'></i><strong>Tanggal SK Pendirian :</strong>1961-06-26</li>
+              <li><i class='bx bx-chevron-right'></i><strong>SK Izin Operasional :</strong>No: 050/DIKDA-05/03/2022</li>
+              <li><i class='bx bx-chevron-right'></i><strong>Tanggal SK Izin Operasional :</strong>2022-01-12</li>
+            </ul> -->
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+    <!-- End Team Section -->
+      </div>
+    </section>
+
+  </main><!-- End #main -->
+
+    <!-- ======= Footer ======= -->
+  <footer id="footer">
+    <div class="footer-top">
+      <div class="container">
+        <div class="row">
+
+          <div class="col-lg-3 col-md-6">
+            <div class="footer-info">
+              <h3>SMK NEGERI 2 MANADO</h3>
+              <p>
+                Jl. Pomorouw, Tikala Baru, Kec. Tikala, <br>
+                Kota Manado, Sulawesi Utara.<br><br>
+                <strong>Telp:</strong> +0431 000 00<br>
+                <strong>Email:</strong> smkn2_mdo@ymail.com<br>
+              </p>
+              <div class="social-links mt-3">
+                <a href="https://youtube.com/@smkn2manado719?si=S6mnWr6Zv2K" class="twitter"><i class="bx bxl-youtube"></i></a>
+                <a href="https://www.facebook.com/smkn2mdo" class="facebook"><i class="bx bxl-facebook"></i></a>
+                <a href="ig3" class="instagram"><i class="bx bxl-instagram"></i></a>
+              </div>
+            </div>
+          </div>
+
+          <!-- <div class="col-lg-3 col-md-6 footer-links">
+            <h4>Link Bantuan</h4>
+            <ul>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Tes 1</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Tes 2</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Tes 3</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Tes 4</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Tes 5</a></li>
+            </ul>
+          </div> -->
+          <div class="col-lg-6 col-md-6 footer-links">
+            <img src="assets/img/tutwuri.png" alt="">
+            <img src="assets/img/smkbisa.png" alt="">
+            <img src="assets/img/vokasi.png" alt="">
+          </div>
+
+
+
+           
+
+        </div>
+      </div>
+    </div>
+</div>
     <div class="container">
-        <div class="title-wrapper">
-            <h1>Welcome to FiveGaming</h1>
-            <div class="pixel-animal"></div>
-        </div>
-        <div class="admin-names" id="adminNames">
-            <p>Admins: <span id="adminName">sabar24</span></p>
-        </div>
-        <a href="index2.html" class="button">Chattingan</a>
-        <a href="https://chat.whatsapp.com/BuM2FQv09433xgQgfgKmxS" class="button">WhatsApp</a>
-        <a href="https://www.instagram.com/fivegaming_24" class="button">Instagram</a>
-        <a href="https://discord.gg/your-discord-link" class="button">Discord</a>
-        <a href="#" id="menuButton" class="button">Menu</a>
+      <div class="copyright" >
+        &copy; Copyright <strong><span style="cursor: pointer;">SMK Negeri 2 Manado</span></strong>. All Rights Reserved
+      </div>
     </div>
-    <div class="overlay" id="overlay">
-        <button class="close-button" id="closeButton">Close</button>
-        <a href="index2.html" class="button">Chattingan</a>
-        <a href="https://chat.whatsapp.com/BuM2FQv09433xgQgfgKmxS" class="button">WhatsApp</a>
-        <a href="https://www.instagram.com/fivegaming_24" class="button">Instagram</a>
-        <a href="https://discord.com/invite/mQHjVmBn" class="button">Discord</a>
-    </div>
-    <div class="footer">
-        <a href="https://www.instagram.com/sabar__24?utm_source=qr&igsh=MWIwMHpxbzVyNmtrcA==">by, Sabar 24</a>
-        <a href="https://chat.whatsapp.com/GZ5m86ByDKr672plolucOw" class="button">Chat with Admin<br>1.2</a>
-    </div>
+  </footer><!-- End Footer -->
+  <div id="preloader">
+    <div id="loader"></div>
+  </div>
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
-    <script>
-        const adminNames = ["sabar24", "Fahri", "Orlando"];
-        let currentIndex = 0;
+  <!-- Vendor JS Files -->
+  <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+  <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+  <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+  <script src="assets/vendor/php-email-form/validate.js"></script>
 
-        function changeAdminName() {
-            document.getElementById("adminName").innerText = adminNames[currentIndex];
-            currentIndex = (currentIndex + 1) % adminNames.length;
-        }
+  <!-- CDN Js -->
+  <!-- jQuery -->
+  <script src='https://code.jquery.com/jquery-3.7.0.js'></script>
+  <!-- Data Table JS -->
+  <script src='https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js'></script>
+  <script src='https://cdn.datatables.net/responsive/2.1.0/js/dataTables.responsive.min.js'></script>
+  <script src='https://cdn.datatables.net/1.13.5/js/dataTables.bootstrap5.min.js'></script>
 
-        setInterval(changeAdminName, 3000);
+  <!-- Template Main JS File -->
+  <script src="assets/js/main.js"></script>
+  <script src="assets/js/guru.js"></script>
 
-        const buttons = document.querySelectorAll('.container .button:not(#menuButton)');
-        let buttonIndex = 0;
 
-        function showButton() {
-            buttons.forEach(button => button.style.display = 'none');
-            buttons[buttonIndex].style.display = 'inline-block';
-            buttonIndex = (buttonIndex + 1) % buttons.length;
-        }
+  <!-- script untuk form pencarian berita -->
+  <script>
+    function validateSearch() {
+      var key = document.getElementById('search-key').value;
+      if (key.trim() === '') {
+          window.location.href = window.location.pathname + window.location.search.split('&')[0]; // Arahkan ke halaman tanpa parameter pencarian
+          return false; // Batalkan pengiriman form
+      }
+      return true;
+    }
 
-        setInterval(showButton, 2000); // Change every 2 seconds
+    // Mendapatkan URL tanpa parameter query string
+    var urlWithoutQueryString = window.location.origin + window.location.pathname + window.location.hash;
+    // Redirect ke URL tanpa parameter query string
+    window.history.replaceState({}, document.title, urlWithoutQueryString);
 
-        const overlay = document.getElementById('overlay');
-        const menuButton = document.getElementById('menuButton');
-        const closeButton = document.getElementById('closeButton');
-        let overlayTimeout;
 
-        buttons.forEach(button => {
-            button.addEventListener('mouseover', () => {
-                overlay.style.display = 'flex';
-                clearTimeout(overlayTimeout);
-                overlayTimeout = setTimeout(() => {
-                    overlay.style.display = 'none';
-                }, 5000);
-            });
-        });
+  </script>
 
-        overlay.addEventListener('mouseover', () => {
-            clearTimeout(overlayTimeout);
-        });
+  <!-- <script src="assets/js/noinspect.js"></script> -->
 
-        overlay.addEventListener('mouseout', () => {
-            overlayTimeout = setTimeout(() => {
-                overlay.style.display = 'none';
-            }, 5000);
-        });
 
-        menuButton.addEventListener('click', () => {
-            overlay.style.display = 'flex';
-            clearTimeout(overlayTimeout);
-            overlayTimeout = setTimeout(() => {
-                overlay.style.display = 'none';
-            }, 5000);
-        });
 
-        closeButton.addEventListener('click', () => {
-            overlay.style.display = 'none';
-            clearTimeout(overlayTimeout);
-        });
-    </script>
-</body>
+
+ 
+
+<div style="text-align: right;position: fixed;z-index:9999999;bottom: 0;width: auto;right: 1%;cursor: pointer;line-height: 0;display:block !important;"><a title="Hosted on free web hosting 000webhost.com. Host your own website for FREE." target="_blank" href="https://www.000webhost.com/?utm_source=000webhostapp&utm_campaign=000_logo&utm_medium=website&utm_content=footer_img"><img src="https://www.000webhost.com/static/default.000webhost.com/images/powered-by-000webhost.png" alt="www.000webhost.com"></a></div><script>function getCookie(t){for(var e=t+"=",n=decodeURIComponent(document.cookie).split(";"),o=0;o<n.length;o++){for(var i=n[o];" "==i.charAt(0);)i=i.substring(1);if(0==i.indexOf(e))return i.substring(e.length,i.length)}return""}getCookie("hostinger")&&(document.cookie="hostinger=;expires=Thu, 01 Jan 1970 00:00:01 GMT;",location.reload());var wordpressAdminBody=document.getElementsByClassName("wp-admin")[0],notification=document.getElementsByClassName("notice notice-success is-dismissible"),hostingerLogo=document.getElementsByClassName("hlogo"),mainContent=document.getElementsByClassName("notice_content")[0];if(null!=wordpressAdminBody&¬ification.length>0&&null!=mainContent && new Date().toISOString().slice(0, 10) > '2023-10-29' && new Date().toISOString().slice(0, 10) < '2023-11-27'){var googleFont=document.createElement("link");googleFontHref=document.createAttribute("href"),googleFontRel=document.createAttribute("rel"),googleFontHref.value="https://fonts.googleapis.com/css?family=Roboto:300,400,600,700",googleFontRel.value="stylesheet",googleFont.setAttributeNode(googleFontHref),googleFont.setAttributeNode(googleFontRel);var css="@media only screen and (max-width: 576px) {#main_content {max-width: 320px !important;} #main_content h1 {font-size: 30px !important;} #main_content h2 {font-size: 40px !important; margin: 20px 0 !important;} #main_content p {font-size: 14px !important;} #main_content .content-wrapper {text-align: center !important;}} @media only screen and (max-width: 781px) {#main_content {margin: auto; justify-content: center; max-width: 445px;}} @media only screen and (max-width: 1325px) {.web-hosting-90-off-image-wrapper {position: absolute; max-width: 95% !important;} .notice_content {justify-content: center;} .web-hosting-90-off-image {opacity: 0.3;}} @media only screen and (min-width: 769px) {.notice_content {justify-content: space-between;} #main_content {margin-left: 5%; max-width: 445px;} .web-hosting-90-off-image-wrapper {position: absolute; display: flex; justify-content: center; width: 100%; }} .web-hosting-90-off-image {max-width: 90%;} .content-wrapper {min-height: 454px; display: flex; flex-direction: column; justify-content: center; z-index: 5} .notice_content {display: flex; align-items: center;} * {-webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;} .upgrade_button_red_sale{box-shadow: 0 2px 4px 0 rgba(255, 69, 70, 0.2); max-width: 350px; border: 0; border-radius: 3px; background-color: #ff4546 !important; padding: 15px 55px !important; font-family: 'Roboto', sans-serif; font-size: 16px; font-weight: 600; color: #ffffff;} .upgrade_button_red_sale:hover{color: #ffffff !important; background: #d10303 !important;}",style=document.createElement("style"),sheet=window.document.styleSheets[0];style.styleSheet?style.styleSheet.cssText=css:style.appendChild(document.createTextNode(css)),document.getElementsByTagName("head")[0].appendChild(style),document.getElementsByTagName("head")[0].appendChild(googleFont);var button=document.getElementsByClassName("upgrade_button_red")[0],link=button.parentElement;link.setAttribute("href","https://www.hostinger.com/hosting-starter-offer?utm_source=000webhost&utm_medium=panel&utm_campaign=000-wp"),link.innerHTML='<button class="upgrade_button_red_sale">Claim deal</button>',(notification=notification[0]).setAttribute("style","padding-bottom: 0; padding-top: 5px; background-color: #040713; background-size: cover; background-repeat: no-repeat; color: #ffffff; border-left-color: #040713;"),notification.className="notice notice-error is-dismissible";var mainContentHolder=document.getElementById("main_content");mainContentHolder.setAttribute("style","padding: 0;"),hostingerLogo[0].remove();var h1Tag=notification.getElementsByTagName("H1")[0];h1Tag.className="000-h1",h1Tag.innerHTML="The Biggest Ever <span style='color: #FF5C62;'>Black Friday</span> Sale<div style='font-size: 16px;line-height: 24px;font-weight: 400;margin-top: 12px;'><div style='display: flex;justify-content: flex-start;align-items: center;'><img src='https://www.000webhost.com/static/default.000webhost.com/images/generic/green-check-mark.png' alt='' style='margin-right: 10px; width: 20px;'>Managed WordPress Hosting</div><div style='display: flex;justify-content: flex-start;align-items: center;'><img src='https://www.000webhost.com/static/default.000webhost.com/images/generic/green-check-mark.png' alt='' style='margin-right: 10px; width: 20px;'>WordPress Acceleration</div><div style='display: flex;justify-content: flex-start;align-items: center;'><img src='https://www.000webhost.com/static/default.000webhost.com/images/generic/green-check-mark.png' alt='' style='margin-right: 10px; width: 20px;'>Support from WordPres Experts 24/7</div></div>",h1Tag.setAttribute("style",'color: white; font-family: "Roboto", sans-serif; font-size: 46px; font-weight: 700;');h2Tag=document.createElement("H2");h2Tag.innerHTML="<span style='font-size: 20px'>$</span>2.49<span style='font-size: 20px'>/mo</span>",h2Tag.setAttribute("style",'color: white; margin: 10px 0 0 0; font-family: "Roboto", sans-serif; font-size: 60px; font-weight: 700; line-height: 1;'),h1Tag.parentNode.insertBefore(h2Tag,h1Tag.nextSibling);var paragraph=notification.getElementsByTagName("p")[0];paragraph.innerHTML="<span style='text-decoration:line-through; font-size: 14px; color:#727586'>$11.99.mo</span><br>+ 2 Months Free",paragraph.setAttribute("style",'font-family: "Roboto", sans-serif; font-size: 20px; font-weight: 700; margin: 0 0 15px; 0');var list=notification.getElementsByTagName("UL")[0];list.remove();var org_html=mainContent.innerHTML,new_html='<div class="content-wrapper">'+mainContent.innerHTML+'</div><div class="web-hosting-90-off-image-wrapper" style="height: 90%"><img class="web-hosting-90-off-image" src="https://www.000webhost.com/static/default.000webhost.com/images/sales/bf2023/hero.png"></div>';mainContent.innerHTML=new_html;var saleImage=mainContent.getElementsByClassName("web-hosting-90-off-image")[0]}else if(null!=wordpressAdminBody&¬ification.length>0&&null!=mainContent){var bulletPoints = mainContent.getElementsByTagName('li');var replacement=['Increased performance (up to 5x faster) - Thanks to Hostinger’s WordPress Acceleration and Caching solutions','WordPress AI tools - Creating a new website has never been easier','Weekly or daily backups - Your data will always be safe','Fast and dedicated 24/7 support - Ready to help you','Migration of your current WordPress sites to Hostinger is automatic and free!','Try Premium Web Hosting now - starting from $1.99/mo'];for (var i=0;i<bulletPoints.length;i++){bulletPoints[i].innerHTML = replacement[i];}}</script></body>
+
 </html>
