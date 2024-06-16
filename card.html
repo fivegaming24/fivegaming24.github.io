@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pixel Gaming Card Guessing Game</title>
+    <style>
+        body {
+            font-family: 'Press Start 2P', cursive;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #1a1a1a;
+            margin: 0;
+            color: #ffffff;
+        }
+
+        .game-container {
+            text-align: center;
+            background-color: #333333;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+            position: relative;
+        }
+
+        #card-deck {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .card {
+            width: 20%;
+            height: 150px;
+            margin: 10px;
+            border-radius: 5px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            position: relative;
+            transition: transform 0.5s ease;
+            border: 2px solid #ffffff;
+            background-color: #666666;
+            perspective: 1000px;
+        }
+
+        .card:hover {
+            transform: scale(1.05);
+        }
+
+        .card img {
+            width: 100%;
+            height: 100%;
+            border-radius: 5px;
+            backface-visibility: hidden;
+            position: absolute;
+            transition: transform 0.5s;
+        }
+
+        .card .back {
+            transform: rotateY(0);
+        }
+
+        .card .front {
+            transform: rotateY(180deg);
+        }
+
+        .flipped .front {
+            transform: rotateY(0);
+        }
+
+        .flipped .back {
+            transform: rotateY(180deg);
+        }
+
+        #shuffle-button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #ff5722;
+            border: none;
+            border-radius: 5px;
+            color: #ffffff;
+            text-transform: uppercase;
+            box-shadow: 0 4px #e64a19;
+        }
+
+        #shuffle-button:hover {
+            background-color: #e64a19;
+        }
+
+        #shuffle-button:active {
+            box-shadow: 0 2px #e64a19;
+            transform: translateY(2px);
+        }
+
+        #message {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #ff5722;
+        }
+
+        @keyframes rotateCard {
+            0% { transform: rotateY(0); }
+            100% { transform: rotateY(180deg); }
+        }
+
+        @keyframes rotateBack {
+            0% { transform: rotateY(180deg); }
+            100% { transform: rotateY(0); }
+        }
+
+        .flipping {
+            animation: rotateCard 0.6s;
+            animation-fill-mode: forwards;
+        }
+
+        .flipping-back {
+            animation: rotateBack 0.6s;
+            animation-fill-mode: forwards;
+        }
+
+        #coin-counter {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 18px;
+            color: #ffeb3b;
+            background-color: #333333;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #ffeb3b;
+        }
+
+        #send-whatsapp-button {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #ff5722;
+            border: none;
+            border-radius: 5px;
+            color: #ffffff;
+            text-transform: uppercase;
+            box-shadow: 0 4px #e64a19;
+            animation: rainbow 2s linear infinite;
+        }
+
+        @keyframes rainbow {
+            0% { background-color: #ff5722; }
+            25% { background-color: #2196F3; }
+            50% { background-color: #4CAF50; }
+            75% { background-color: #FFEB3B; }
+            100% { background-color: #ff5722; }
+        }
+
+        @media (min-width: 600px) {
+            .card {
+                width: 15%;
+            }
+        }
+
+        @media (min-width: 900px) {
+            .card {
+                width: 10%;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+</head>
+<body>     
+
+        <button id="send-whatsapp-button">Kirim Koin</button>
+    </div>
+    
+    <div id="coin-counter">Koin: 0</div>
+    <div class="game-container">
+        <h1>Pixel Gaming Card Guessing</h1>
+        <hr>
+                <h1>cari cewe rasis</h1>
+        <div id="card-deck">
+            <!-- Kartu akan ditambahkan di sini oleh JavaScript -->
+        </div><div id="message"></div>
+        <button id="shuffle-button">Acak Kartu</button>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const cardDeck = document.getElementById('card-deck');
+            const shuffleButton = document.getElementById('shuffle-button');
+            const messageDiv = document.getElementById('message');
+            const coinCounter = document.getElementById('coin-counter');
+            const sendWhatsappButton = document.getElementById('send-whatsapp-button');
+            let coins = parseInt(localStorage.getItem('coins')) || 0;
+            coinCounter.textContent = `Koin: ${coins}`;
+
+            const cards = [
+                { value: '1', img: '2.jpg' },
+                { value: '2', img: '2.jpg' },
+                { value: '5', img: '5.jpg' },
+                { value: '6', img: '6.jpg' },
+                { value: '7', img: '7.jpg' },
+                { value: '8', img: '8.jpg' },
+                { value: '9', img: '9.jpg' },
+                { value: '10', img: '10.jpg' },
+                { value: 'K', img: 'king.jpg' }
+            ];
+
+            const backImage = 'https://img.freepik.com/premium-vector/abstract-background-with-card-suits-design-vector-illustration_118124-11975.jpg?w=1060'; // Gambar bagian belakang kartu
+
+            let selectedCard = null;
+
+            function shuffleArray(array) {
+                for (let i = array.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [array[i], array[j]] = [array[j], array[i]];
+                }
+            }
+
+            function createCardElements() {
+                cardDeck.innerHTML = '';
+                shuffleArray(cards);
+                cards.forEach(card => {
+                    const cardElement = document.createElement('div');
+                    cardElement.className = 'card';
+                    cardElement.dataset.value = card.value;
+
+                    const frontImage = document.createElement('img');
+                    frontImage.src = card.img;
+                    frontImage.classList.add('front');
+
+                    const backImageElement = document.createElement('img');
+                    backImageElement.src = backImage;
+                    backImageElement.classList.add('back');
+
+                    cardElement.appendChild(frontImage);
+                    cardElement.appendChild(backImageElement);
+
+                    cardElement.addEventListener('click', () => guessCard(cardElement));
+                    cardDeck.appendChild(cardElement);
+                });
+            }
+
+            function guessCard(cardElement) {
+                if (selectedCard === null) {
+                    selectedCard = cardElement;
+                    selectedCard.classList.add('flipping');
+                    setTimeout(() => {
+                        selectedCard.classList.add('flipped');
+                        selectedCard.classList.remove('flipping');
+                        messageDiv.textContent = 'Kartu sudah diacak, coba tebak!';
+                    }, 600);
+                } else {
+                    if (cardElement !== selectedCard) {
+                        selectedCard.classList.add('flipping-back');
+                        setTimeout(() => {
+                            selectedCard.classList.remove('flipped', 'flipping-back');
+                            selectedCard = cardElement;
+                            selectedCard.classList.add('flipping');
+                            setTimeout(() => {
+                                selectedCard.classList.add('flipped');
+                                selectedCard.classList.remove('flipping');
+                                if (selectedCard.dataset.value === 'K') {
+                                    coins += 20;
+                                    localStorage.setItem('coins', coins);
+                                    coinCounter.textContent = `Koin: ${coins}`;
+                                    messageDiv.textContent = 'Selamat! Tebakan Anda benar.';
+                                    // Tampilkan overlay keberhasilan
+                                    const successOverlay = document.createElement('card-deck');
+                                    successOverlay.classList.add('overlay-success');
+                                    successOverlay.textContent = 'Tebakan Benar!';
+                                    document.body.appendChild(successOverlay);
+                                    setTimeout(() => {
+                                        successOverlay.remove();
+                                    }, 1500);
+                                } else {
+                                    coins -= 5; // Kurangi 40 koin jika tebakan salah
+                                    localStorage.setItem('coins', coins);
+                                    coinCounter.textContent = `Koin: ${coins}`;
+                                    messageDiv.textContent = 'Maaf, tebakan Anda salah. Coba lagi!';
+                                    // Tampilkan overlay kegagalan
+                                    const failOverlay = document.createElement('div');
+                                    failOverlay.classList.add('overlay-fail');
+                                    failOverlay.textContent = 'Tebakan Salah!';
+                                    document.body.appendChild(failOverlay);
+                                    setTimeout(() => {
+                                        failOverlay.remove();
+                                    }, 1500);
+                                }
+                            }, 600);
+                        }, 600);
+                    }
+                }
+            }
+
+            function shuffleCards() {
+                const cardElements = document.querySelectorAll('.card');
+                cardElements.forEach(card => {
+                    card.classList.add('shuffling');
+                });
+
+                setTimeout(() => {
+                    createCardElements();
+                    cardElements.forEach(card => {
+                        card.classList.remove('shuffling');
+                    });
+                }, 500);
+            }
+
+            shuffleButton.addEventListener('click', () => {
+                selectedCard = null;
+                messageDiv.textContent = '';
+                shuffleCards();
+            });
+
+            // Function to send coins to WhatsApp
+            function sendCoinsToWhatsApp() {
+                const coinsMessage = encodeURIComponent(`Koinsaya ${coins} senggol dong 🔥💪👍`);
+                const whatsappURL = `https://chat.whatsapp.com/BuM2FQv09433xgQgfgKmxS/?text=${coinsMessage}`;
+                window.open(whatsappURL, '_blank');
+            }
+
+            sendWhatsappButton.addEventListener('click', sendCoinsToWhatsApp);
+
+            createCardElements();
+        });
+    </script>
+</body>
+</html>
