@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pixel Gaming Card Guessing Game</title>
+    <title>Game tebak-tebakan gambar</title>
     <style>
         body {
             font-family: 'Press Start 2P', cursive;
@@ -177,23 +177,47 @@
                 width: 10%;
             }
         }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            font-size: 24px;
+            z-index: 1000;
+            flex-direction: column;
+        }
+
+        .overlay img {
+            width: 100px;
+            height: auto;
+            margin-top: 20px;
+        }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 </head>
-<body>     
+<body>
 
-        <button id="send-whatsapp-button">Kirim Koin</button>
-    </div>
-    
+    <button id="send-whatsapp-button">Kirim Koin</button>
+
     <div id="coin-counter">Koin: 0</div>
     <div class="game-container">
-        <h1>Pixel Gaming Card Guessing</h1>
+        <h1>Game tebak-tebakan gambar</h1>
         <hr>
-                <h1>cari cewe rasis</h1>
+        <h1>Cari Kartu King</h1>
         <div id="card-deck">
             <!-- Kartu akan ditambahkan di sini oleh JavaScript -->
-        </div><div id="message"></div>
+        </div>
+        <div id="message"></div>
         <button id="shuffle-button">Acak Kartu</button>
+    <h1>by.sabar__24 1.1</h1>
+    </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
@@ -217,7 +241,7 @@
                 { value: 'K', img: 'king.jpg' }
             ];
 
-            const backImage = 'https://img.freepik.com/premium-vector/abstract-background-with-card-suits-design-vector-illustration_118124-11975.jpg?w=1060'; // Gambar bagian belakang kartu
+            const backImage = 'https://img.freepik.com/premium-vector/abstract-background-with-card-suits-design-vector-illustration118124-11975.jpg?w=1060'; // Gambar bagian belakang kartu
 
             let selectedCard = null;
 
@@ -276,24 +300,33 @@
                                     localStorage.setItem('coins', coins);
                                     coinCounter.textContent = `Koin: ${coins}`;
                                     messageDiv.textContent = 'Selamat! Tebakan Anda benar.';
-                                    // Tampilkan overlay keberhasilan
-                                    const successOverlay = document.createElement('card-deck');
-                                    successOverlay.classList.add('overlay-success');
-                                    successOverlay.textContent = 'Tebakan Benar!';
+                                    
+                                    // Tampilkan overlay keberhasilan dengan gambar kartu King
+                                    const successOverlay = document.createElement('div');
+                                    successOverlay.classList.add('overlay');
+                                    successOverlay.innerHTML = `
+                                        <div>Selamat! Anda menemukan kartu King!</div>
+                                        <img src="king.jpg" alt="King Card">
+                                    `;
                                     document.body.appendChild(successOverlay);
+                                    
                                     setTimeout(() => {
                                         successOverlay.remove();
+                                        selectedCard = null;
+                                        createCardElements();
                                     }, 1500);
                                 } else {
-                                    coins -= 5; // Kurangi 40 koin jika tebakan salah
+                                    coins -= 5; // Kurangi koin jika tebakan salah
                                     localStorage.setItem('coins', coins);
                                     coinCounter.textContent = `Koin: ${coins}`;
                                     messageDiv.textContent = 'Maaf, tebakan Anda salah. Coba lagi!';
+                                    
                                     // Tampilkan overlay kegagalan
                                     const failOverlay = document.createElement('div');
-                                    failOverlay.classList.add('overlay-fail');
+                                    failOverlay.classList.add('overlay');
                                     failOverlay.textContent = 'Tebakan Salah!';
                                     document.body.appendChild(failOverlay);
+                                    
                                     setTimeout(() => {
                                         failOverlay.remove();
                                     }, 1500);
@@ -305,29 +338,17 @@
             }
 
             function shuffleCards() {
-                const cardElements = document.querySelectorAll('.card');
-                cardElements.forEach(card => {
-                    card.classList.add('shuffling');
-                });
-
-                setTimeout(() => {
-                    createCardElements();
-                    cardElements.forEach(card => {
-                        card.classList.remove('shuffling');
-                    });
-                }, 500);
-            }
-
-            shuffleButton.addEventListener('click', () => {
                 selectedCard = null;
                 messageDiv.textContent = '';
-                shuffleCards();
-            });
+                createCardElements();
+            }
+
+            shuffleButton.addEventListener('click', shuffleCards);
 
             // Function to send coins to WhatsApp
             function sendCoinsToWhatsApp() {
-                const coinsMessage = encodeURIComponent(`Koinsaya ${coins} senggol dong 🔥💪👍`);
-                const whatsappURL = `https://chat.whatsapp.com/BuM2FQv09433xgQgfgKmxS/?text=${coinsMessage}`;
+                const coinsMessage = encodeURIComponent(`Koin saya ${coins} senggol dong 🔥💪👍`);
+                const whatsappURL = `https://chat.whatsapp.com/BuM2FQv09433xgQgfgKmxS=${coinsMessage}`;
                 window.open(whatsappURL, '_blank');
             }
 
