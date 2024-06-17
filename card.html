@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Game tebak-tebakan gambar</title>
+    <title>Pixel Gaming Card Guessing Game</title>
     <style>
         body {
             font-family: 'Press Start 2P', cursive;
@@ -19,7 +19,7 @@
         .game-container {
             text-align: center;
             background-color: #333333;
-            padding: 20px;
+            padding: 10;
             border-radius: 8px;
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
             position: relative;
@@ -28,7 +28,7 @@
         #card-deck {
             display: flex;
             justify-content: center;
-            margin-bottom: 20px;
+            margin-bottom: 5px;
             flex-wrap: wrap;
         }
 
@@ -208,7 +208,7 @@
 
     <div id="coin-counter">Koin: 0</div>
     <div class="game-container">
-        <h1>Game tebak-tebakan gambar</h1>
+        <h1>Pixel Gaming Card Guessing</h1>
         <hr>
         <h1>Cari Kartu King</h1>
         <div id="card-deck">
@@ -216,7 +216,6 @@
         </div>
         <div id="message"></div>
         <button id="shuffle-button">Acak Kartu</button>
-    <h1>by.sabar__24 1.1</h1>
     </div>
 
     <script>
@@ -241,7 +240,7 @@
                 { value: 'K', img: 'king.jpg' }
             ];
 
-            const backImage = 'https://img.freepik.com/premium-vector/abstract-background-with-card-suits-design-vector-illustration118124-11975.jpg?w=1060'; // Gambar bagian belakang kartu
+            const backImage = 'deck.jpg'; // Gambar bagian belakang kartu
 
             let selectedCard = null;
 
@@ -347,8 +346,8 @@
 
             // Function to send coins to WhatsApp
             function sendCoinsToWhatsApp() {
-                const coinsMessage = encodeURIComponent(`Koin saya ${coins} senggol dong 🔥💪👍`);
-                const whatsappURL = `https://chat.whatsapp.com/BuM2FQv09433xgQgfgKmxS=${coinsMessage}`;
+                const coinsMessage = encodeURIComponent(`Koin saya ${coins} singgol dong dan ada koin mantap`);
+                const whatsappURL = `https://chat.whatsapp.com/BuM2FQv09433xgQgfgKmxS/?text=${coinsMessage}`;
                 window.open(whatsappURL, '_blank');
             }
 
