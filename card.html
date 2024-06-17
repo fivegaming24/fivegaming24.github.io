@@ -19,7 +19,7 @@
         .game-container {
             text-align: center;
             background-color: #333333;
-            padding: 10;
+            padding: 0;
             border-radius: 8px;
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
             position: relative;
@@ -28,7 +28,7 @@
         #card-deck {
             display: flex;
             justify-content: center;
-            margin-bottom: 5px;
+            margin-bottom: 20px;
             flex-wrap: wrap;
         }
 
@@ -199,6 +199,48 @@
             height: auto;
             margin-top: 20px;
         }
+
+        .phone-input-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            font-size: 24px;
+            z-index: 1000;
+            flex-direction: column;
+        }
+
+        .phone-input-overlay.active {
+            display: flex;
+        }
+
+        .phone-input-overlay input {
+            font-size: 18px;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 5px;
+            border: none;
+            outline: none;
+        }
+
+        .phone-input-overlay button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #ff5722;
+            border: none;
+            border-radius: 5px;
+            color: #ffffff;
+            text-transform: uppercase;
+            margin-top: 10px;
+        }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 </head>
@@ -206,9 +248,9 @@
 
     <button id="send-whatsapp-button">Kirim Koin</button>
 
-    <div id="coin-counter">Koin: 0</div>
+    <div id="coin-counter">Koin: 10</div>
     <div class="game-container">
-        <h1>Pixel Gaming Card Guessing</h1>
+        <h1>Pixel Gaming Card 1.1</h1>
         <hr>
         <h1>Cari Kartu King</h1>
         <div id="card-deck">
@@ -218,6 +260,12 @@
         <button id="shuffle-button">Acak Kartu</button>
     </div>
 
+    <div class="phone-input-overlay" id="phone-input-overlay">
+        <div>Masukkan nomor telepon (diawali +62):</div>
+        <input type="text" id="phone-number-input" placeholder="+62" />
+        <button id="submit-phone-number">Kirim</button>
+    </div>
+
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const cardDeck = document.getElementById('card-deck');
@@ -225,6 +273,9 @@
             const messageDiv = document.getElementById('message');
             const coinCounter = document.getElementById('coin-counter');
             const sendWhatsappButton = document.getElementById('send-whatsapp-button');
+            const phoneInputOverlay = document.getElementById('phone-input-overlay');
+            const phoneNumberInput = document.getElementById('phone-number-input');
+            const submitPhoneNumberButton = document.getElementById('submit-phone-number');
             let coins = parseInt(localStorage.getItem('coins')) || 0;
             coinCounter.textContent = `Koin: ${coins}`;
 
@@ -237,8 +288,7 @@
                 { value: '8', img: '8.jpg' },
                 { value: '9', img: '9.jpg' },
                 { value: '10', img: '10.jpg' },
-                { value: 'K', img: 'king.jpg' }
-            ];
+                { value: 'K', img: 'king.jpg' }];
 
             const backImage = 'deck.jpg'; // Gambar bagian belakang kartu
 
@@ -345,16 +395,28 @@
             shuffleButton.addEventListener('click', shuffleCards);
 
             // Function to send coins to WhatsApp
-            function sendCoinsToWhatsApp() {
-                const coinsMessage = encodeURIComponent(`Koin saya ${coins} singgol dong dan ada koin mantap`);
-                const whatsappURL = `https://chat.whatsapp.com/BuM2FQv09433xgQgfgKmxS/?text=${coinsMessage}`;
+            function sendCoinsToWhatsApp(phoneNumber) {
+                const coinsMessage = encodeURIComponent(`Koin saya ${coins}`);
+                const whatsappURL = `https://wa.me/${phoneNumber}/?text=${coinsMessage}`;
                 window.open(whatsappURL, '_blank');
             }
 
-            sendWhatsappButton.addEventListener('click', sendCoinsToWhatsApp);
+            sendWhatsappButton.addEventListener('click', () => {
+                phoneInputOverlay.classList.add('active');
+            });
+
+            submitPhoneNumberButton.addEventListener('click', () => {
+                const phoneNumber = phoneNumberInput.value.trim();
+                if (phoneNumber.startsWith('+62')) {
+                    sendCoinsToWhatsApp(phoneNumber);
+                    phoneInputOverlay.classList.remove('active');
+                } else {
+                    alert('Nomor telepon harus diawali dengan +62');
+                }
+            });
 
             createCardElements();
         });
     </script>
 </body>
-</html>
+    </html>
