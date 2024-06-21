@@ -3,257 +3,73 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FiveGaming</title>
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <title>Five Hub</title>
     <style>
         body {
-            font-family: 'Press Start 2P', cursive;
-            margin: 0;
-            padding: 0;
-            background-color: #1a1a1a;
-            color: #ffffff;
-            overflow: hidden;
-        }
-        .container {
-            text-align: center;
-            padding: 50px;
-            position: relative;
-        }
-        .title-wrapper {
-            position: relative;
-        }
-        h1 {
-            color: #00ff00;
-            font-size: 48px;
-            margin-bottom: 20px;
-        }
-        .pixel-animal {
-            position: absolute;
-            top: -60px; /* Adjust this value to position the pixel animal correctly */
-            left: 0;
-            width: 50px; /* Adjust the size of the pixel animal */
-            height: 50px; /* Adjust the size of the pixel animal */
-            background: url('pixel.gif') no-repeat center center;
-            background-size: contain;
-            animation: moveAnimal 5s linear infinite;
-        }
-        .admin-names {
-            margin-bottom: 30px;
-            font-size: 20px;
-            color: #ff4500;
-            animation: moveAdmin 6s infinite alternate;
-        }
-        .button {
-            display: none; /* Initially hide all buttons */
-            padding: 15px 30px;
-            background-color: #ff4500;
-            color: #ffffff;
-            text-decoration: none;
-            border-radius: 8px;
-            margin: 10px;
-            font-size: 18px;
-            transition: background-color 0.3s;
-        }
-        .button:hover {
-            background-color: #ff6a36;
-        }
-        .footer {
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-            background-color: #333333;
-            color: #ffffff;
-            padding: 5px 0; /* Adjusted padding */
-            text-align: center; /* Center the content */
-            font-size: 14px; /* Adjusted font size */
-        }
-        .footer a {
-            color: #ffffff;
-            text-decoration: none;
-            margin: 0 10px;
-        }
-        .chat-button {
-            background-color: #008CBA;
-        }
-        .chat-button:hover {
-            background-color: #005f76;
-        }
-        .overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
-            z-index: 1000;
-            flex-direction: column; /* Arrange buttons in a column */
+            height: 100vh;
+            background-color: #333;
+            margin: 0;
+            font-family: Arial, sans-serif;
         }
-        .overlay .button {
-            display: inline-block;
-            margin: 10px;
+        .logo-container {
+            display: flex;
+            align-items: center;
+            border: 2px solid white;
+            padding: 10px;
+            background-color: #333;
         }
-        .close-button {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background-color: #ff4500;
-            color: #ffffff;
+        .logo {
+            font-size: 2.5em;
+            color: white;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        .hub {
+            background-color: #ffd700;
+            color: black;
+            padding: 0 10px;
+            font-size: 2.5em;
+            font-weight: bold;
+        }
+        .button-container {
+            margin-top: 20px;
+        }
+        .more-info-button {
+            text-decoration: none;
             padding: 10px 20px;
-            font-size: 18px;
+            background-color: #ffd700;
+            color: black;
             border: none;
-            border-radius: 8px;
             cursor: pointer;
-        }
-        .close-button:hover {
-            background-color: #ff6a36;
-        }
-        @keyframes moveAdmin {
-            0% {
-                transform: translateY(0);
-            }
-            50% {
-                transform: translateY(-10px);
-            }
-            100% {
-                transform: translateY(0);
-            }
-        }
-        @keyframes moveAnimal {
-            0% {
-                left: 0;
-            }
-            50% {
-                left: calc(100% - 50px); /* Adjust 50px based on your GIF size */
-            }
-            100% {
-                left: 0;
-            }
-        }
-
-        /* Responsive Styles */
-
-        /* For smaller screens */
-        @media only screen and (max-width: 600px) {
-            .container {
-                padding: 20px;
-            }
-            h1 {
-                font-size: 36px;
-            }
-            .button {
-                font-size: 16px;
-                padding: 10px 20px;
-            }
-        }
-
-        /* For larger screens */
-        @media only screen and (min-width: 1200px) {
-            .container {
-                padding: 100px;
-            }
-            h1 {
-                font-size: 60px;
-            }
-            .button {
-                font-size: 20px;
-                padding: 20px 40px;
-            }
+            font-size: 1em;
+            font-weight: bold;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="title-wrapper">
-            <h1>Welcome to FiveGaming</h1>
-            <div class="pixel-animal"></div>
-        </div>
-        <div class="admin-names" id="adminNames">
-            <p>Admins: <span id="adminName">sabar24</span></p>
-        </div>
-        <a href="index2.html" class="button">Chattingan</a>
-        <a href="https://chat.whatsapp.com/BuM2FQv09433xgQgfgKmxS" class="button">WhatsApp</a>
-        <a href="https://www.instagram.com/fivegaming_24" class="button">Instagram</a>
-        <a href="https://discord.gg/your-discord-link" class="button">Discord</a>
-                <a href="card.html" class="button">game card</a>
-        
-        <a href="#" id="menuButton" class="button">Menu</a>
+    <div class="logo-container">
+        <div class="logo"><span id="animated-text">Five</span></div>
+        <div class="hub">hub</div>
     </div>
-    <div class="overlay" id="overlay">
-        <button class="close-button" id="closeButton">Close</button>
-        <a href="index2.html" class="button">Chattingan</a>
-        <a href="https://chat.whatsapp.com/BuM2FQv09433xgQgfgKmxS" class="button">WhatsApp</a>
-        <a href="https://www.instagram.com/fivegaming_24" class="button">Instagram</a>
-        <a href="https://discord.com/invite/mQHjVmBn" class="button">Discord</a>
-         <a href="card.html" class="button">game+card</a>
-     <a href="pendaftaran.html"class="button">DAFTAR</a>
-    </div>
-    <div class="footer">
-        <a href="https://www.instagram.com/sabar__24?utm_source=qr&igsh=MWIwMHpxbzVyNmtrcA==">by, Sabar __24</a>
-        <a href="https://chat.whatsapp.com/GZ5m86ByDKr672plolucOw" class="button">Chat with Admin<br>1.2</a>
+    <div class="button-container">
+        <a href="https://fivegaming24.github.io" class="more-info-button">lebih lanjut</a>
     </div>
 
     <script>
-        const adminNames = ["sabar24", "Fahri", "Orlando"];
-        let currentIndex = 0;
+        const words = ["Five", "POD", "PRN", "PORN", "POP", "PRANK"];
+        let currentWordIndex = 0;
+        const animatedText = document.getElementById("animated-text");
 
-        function changeAdminName() {
-            document.getElementById("adminName").innerText = adminNames[currentIndex];
-            currentIndex = (currentIndex + 1) % adminNames.length;
-        }
+        const changeText = () => {
+            currentWordIndex = (currentWordIndex + 1) % words.length;
+            animatedText.textContent = words[currentWordIndex];
+        };
 
-        setInterval(changeAdminName, 3000);
-
-        const buttons = document.querySelectorAll('.container .button:not(#menuButton)');
-        let buttonIndex = 0;
-
-        function showButton() {
-            buttons.forEach(button => button.style.display = 'none');
-            buttons[buttonIndex].style.display = 'inline-block';
-            buttonIndex = (buttonIndex + 1) % buttons.length;
-        }
-
-        setInterval(showButton, 2000); // Change every 2 seconds
-
-        const overlay = document.getElementById('overlay');
-        const menuButton = document.getElementById('menuButton');
-        const closeButton = document.getElementById('closeButton');
-        let overlayTimeout;
-
-        buttons.forEach(button => {
-            button.addEventListener('mouseover', () => {
-                overlay.style.display = 'flex';
-                clearTimeout(overlayTimeout);
-                overlayTimeout = setTimeout(() => {
-                    overlay.style.display = 'none';
-                }, 5000);
-            });
-        });
-
-        overlay.addEventListener('mouseover', () => {
-            clearTimeout(overlayTimeout);
-        });
-
-        overlay.addEventListener('mouseout', () => {
-            overlayTimeout = setTimeout(() => {
-                overlay.style.display = 'none';
-            }, 5000);
-        });
-
-        menuButton.addEventListener('click', () => {
-            overlay.style.display = 'flex';
-            clearTimeout(overlayTimeout);
-            overlayTimeout = setTimeout(() => {
-                overlay.style.display = 'none';
-            }, 5000);
-        });
-
-        closeButton.addEventListener('click', () => {
-            overlay.style.display = 'none';
-            clearTimeout(overlayTimeout);
-        });
+        setInterval(changeText, 2000);
     </script>
 </body>
 </html>
