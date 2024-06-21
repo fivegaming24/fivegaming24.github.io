@@ -142,7 +142,7 @@ button:hover {
 </head>
 <body>
 <div class="container">
-    <h1 class="title">Login 1.4</h1>
+    <h1 class="title">Login 1.5</h1>
     <div class="form-group">
         <label for="username">Username</label>
         <input type="text" id="username" placeholder="Enter your username">
@@ -164,7 +164,72 @@ button:hover {
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bcryptjs/dist/bcrypt.min.js"></script>
 <script>
-  var allowedUsers=[{username:"admin",password:"$2a$10$wZemr/F1LNk.JGJo5FmuNePLKFlftEniYWh9YISbZORXK9y54nFHK"},{username:"fahry",password:"$2a$10$Gi/VBTVQs6u2V9Ohs3S.pOnJpHD1iOB5axVTXL6Nh5dX65U0fQ2Ru"},{username:"lando",password:"$2a$10$eh30qW/Hj2Q4E8Mo3nwr8e5TQ68X0tKQnXxI0wVb84rH11b1dmiVe"},{username:"gio",password:"$2a$10$4fpR9xeyDNG5HDK61o1X5eq6l8GCMwO6BD2yPLu1XqH82PQ0ME.Oq"},{username:"trepis",password:"$2a$10$fZxkufJQO2p3QYNEs6Dd.eJg9YsW/u7U7ZJhNGUoKj9hFCxEak/Yy"},{username:"Junior",password:"$2a$10$2N6VJotLv0PQK6qPKBlAZegSJjUvHfa.L4LGNqGuUwAoW0uFZonR6"},{username:"rukyry",password:"$2a$10$9k8bQQU0iQOs/mhp4qGv7OLuoPfBj6L8EF75g6XyHAXcuF6EddVPe"}];function login(){var a=document.getElementById("username").value.trim(),b=document.getElementById("password").value.trim();a&&b?(document.getElementById("loadingSpinner").style.display="block",setTimeout(function(){var c=allowedUsers.some(function(c){return c.username===a&&bcrypt.compareSync(b,c.password)});if(c)localStorage.setItem("username",a),c=(new Date).toLocaleString(),localStorage.setItem("loginTime",c),window.location.href="index1.html";else{var d=allowedUsers.map(function(a){return a.username});d.includes(a)?(c="user",d=d.filter(function(a){return a.startsWith("user")}).length+1,a=c+d):a="user1",localStorage.setItem("username",a),c=(new Date).toLocaleString(),localStorage.setItem("loginTime",c),window.location.href="index1.html"}},2e3)):alert("Please enter both username and password!")}function showTime(){var a=document.getElementById("time"),b=(new Date).toLocaleString();a.textContent="Current Time: "+b,b=localStorage.getItem("loginTime"),b&&(a.textContent+="\nLast Login Time: "+b)}showTime(),setInterval(showTime,1e3);
+  var allowedUsers = [
+    { username: 'admin', password: '$2a$10$wZemr/F1LNk.JGJo5FmuNePLKFlftEniYWh9YISbZORXK9y54nFHK' }, // Hashed '12345sjjahahbahahshahhahahshahajsjhsnwiezvaiwusbsbdjswiushsbsjsksihsbskwosiahwbwjwoiwiuw826252gsjw98wywgehsjsiowiwiwu7272yy2gwusueu2geusuw8wusuhshdheiwiwiwhshsghwuw818ehhjd9s8whsh6'
+    { username: 'fahry', password: '$2a$10$Gi/VBTVQs6u2V9Ohs3S.pOnJpHD1iOB5axVTXL6Nh5dX65U0fQ2Ru' }, // Hashed 'Tole123'
+    { username: 'lando', password: '$2a$10$eh30qW/Hj2Q4E8Mo3nwr8e5TQ68X0tKQnXxI0wVb84rH11b1dmiVe' }, // Hashed 'lando'
+    { username: 'gio', password: '$2a$10$4fpR9xeyDNG5HDK61o1X5eq6l8GCMwO6BD2yPLu1XqH82PQ0ME.Oq' }, // Hashed '1234'
+    { username: 'trepis', password: '$2a$10$fZxkufJQO2p3QYNEs6Dd.eJg9YsW/u7U7ZJhNGUoKj9hFCxEak/Yy' }, // Hashed 'trepis'
+    { username: 'Junior', password: '$2a$10$2N6VJotLv0PQK6qPKBlAZegSJjUvHfa.L4LGNqGuUwAoW0uFZonR6' }, // Hashed 'J__R'
+    { username: 'rukyry', password: '$2a$10$9k8bQQU0iQOs/mhp4qGv7OLuoPfBj6L8EF75g6XyHAXcuF6EddVPe' }, // Hashed 'mustari012'
+  ];
+
+  function login() {
+    var username = document.getElementById('username').value.trim();
+    var password = document.getElementById('password').value.trim();
+
+    if (username && password) {
+      document.getElementById('loadingSpinner').style.display = 'block';
+
+      setTimeout(function() {
+        var userFound = allowedUsers.some(function(user) {
+          return user.username === username && bcrypt.compareSync(password, user.password);
+        });
+
+        if (userFound) {
+          localStorage.setItem('username', username);
+          var currentTime = new Date().toLocaleString();
+          localStorage.setItem('loginTime', currentTime);
+          window.location.href = 'index1.html';
+        } else {
+          var existingUsers = allowedUsers.map(function(user) {
+            return user.username;
+          });
+
+          if (existingUsers.includes(username)) {
+            var newUser = 'user';
+            var userNumber = existingUsers.filter(function(name) {
+              return name.startsWith('user');
+            }).length + 1;
+            username = newUser + userNumber;
+          } else {
+            username = 'user1';
+          }
+
+          localStorage.setItem('username', username);
+          var currentTime = new Date().toLocaleString();
+          localStorage.setItem('loginTime', currentTime);
+          window.location.href = 'index1.html';
+        }
+      }, 2000); // Simulate a loading time of 2 seconds
+    } else {
+      alert('Please enter both username and password!');
+    }
+  }
+
+  function showTime() {
+    var timeElement = document.getElementById('time');
+    var currentTime = new Date().toLocaleString();
+    timeElement.textContent = 'Current Time: ' + currentTime;
+
+    var lastLoginTime = localStorage.getItem('loginTime');
+    if (lastLoginTime) {
+      timeElement.textContent += '\nLast Login Time: ' + lastLoginTime;
+    }
+  }
+
+  showTime();
+  setInterval(showTime, 1000); // Update the time every second
 </script>
 </body>
 </html>
