@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Pixel Gaming Theme</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+        body {
+            background-color: #1a1a1d;
+            font-family: 'Press Start 2P', cursive;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .create-button, .delete-button, .login-button {
+            background-color: #ff4757;
+            border: none;
+            padding: 15px 30px;
+            margin-top: 20px;
+            font-size: 16px;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        .create-button:hover, .delete-button:hover, .login-button:hover {
+            background-color: #e84118;
+        }
+        .link-button {
+            background-color: #2ed573;
+            border: none;
+            padding: 10px 20px;
+            margin: 10px;
+            font-size: 14px;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+            text-decoration: none;
+            display: inline-block;
+            transition: background-color 0.3s ease;
+        }
+        .link-button:hover {
+            background-color: #26de81;
+        }
+        #form-container, #login-container {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+        }
+        #form-container input, #login-container input {
+            padding: 10px;
+            margin: 5px;
+            border: none;
+            border-radius: 5px;
+            font-family: 'Press Start 2P', cursive;
+        }
+        #form-container button, #login-container button {
+            background-color: #ff4757;
+            border: none;
+            padding: 10px 20px;
+            margin-top: 10px;
+            font-size: 14px;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        #form-container button:hover, #login-container button:hover {
+            background-color: #e84118;
+        }
+        .button-container {
+            display: flex;
+            align-items: center;
+            margin: 10px;
+        }
+        .button-container button {
+            margin-left: 10px;
+            background-color: #ff4757;
+            border: none;
+            padding: 10px;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        .button-container button:hover {
+            background-color: #e84118;
+        }
+    </style>
+</head>
+<body>
+    <div id="login-container">
+        <input type="password" id="admin-password" placeholder="Enter Password">
+        <button class="login-button" onclick="login()">Login</button>
+    </div>
+    
+    <div id="admin-container" style="display:none;">
+        <button class="create-button" onclick="showForm()">+ Create</button>
+        
+        <div id="form-container">
+            <input type="text" id="button-name" placeholder="Button Name">
+            <input type="text" id="button-link" placeholder="Button Link">
+            <button onclick="createButton()">Submit</button>
+        </div>
+        
+        <div id="buttons-container"></div>
+    </div>
+
+    <script>
+        function showForm() {
+            document.getElementById('form-container').style.display = 'flex';
+        }
+
+        function createButton() {
+            const name = document.getElementById('button-name').value;
+            const link = document.getElementById('button-link').value;
+
+            if (name && link) {
+                const savedButtons = JSON.parse(localStorage.getItem("buttons")) || [];
+                savedButtons.push({ name, link });
+                localStorage.setItem("buttons", JSON.stringify(savedButtons));
+                renderButtons();
+
+                // Hide the form and reset input fields
+                document.getElementById('form-container').style.display = 'none';
+                document.getElementById('button-name').value = '';
+                document.getElementById('button-link').value = '';
+            }
+        }
+
+        function deleteButton(index) {
+            const savedButtons = JSON.parse(localStorage.getItem("buttons")) || [];
+            savedButtons.splice(index, 1);
+            localStorage.setItem("buttons", JSON.stringify(savedButtons));
+            renderButtons();
+        }
+
+        function renderButtons() {
+            const container = document.getElementById('buttons-container');
+            container.innerHTML = '';
+            const savedButtons = JSON.parse(localStorage.getItem("buttons")) || [];
+            savedButtons.forEach((button, index) => {
+                const buttonContainer = document.createElement('div');
+                buttonContainer.className = 'button-container';
+
+                const linkButton = document.createElement('a');
+                linkButton.href = button.link;
+                linkButton.className = 'link-button';
+                linkButton.textContent = button.name;
+
+                const deleteBtn = document.createElement('button');
+                deleteBtn.textContent = 'Delete';
+                deleteBtn.onclick = () => deleteButton(index);
+
+                buttonContainer.appendChild(linkButton);
+                buttonContainer.appendChild(deleteBtn);
+                container.appendChild(buttonContainer);
+            });
+        }
+
+        async function hashPassword(password) {
+            const encoder = new TextEncoder();
+            const data = encoder.encode(password);
+            const hash = await crypto.subtle.digest('SHA-256', data);
+            return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2, '0')).join('');
+        }
+
+        async function login() {
+            const inputPassword = document.getElementById('admin-password').value;
+            const hashedInputPassword = await hashPassword(inputPassword);
+            const storedPassword = localStorage.getItem('admin-password');
+
+            if (!storedPassword) {
+                const defaultPassword = '123';
+                const hashedDefaultPassword = await hashPassword(defaultPassword);
+                localStorage.setItem('admin-password', hashedDefaultPassword);
+                if (hashedInputPassword === hashedDefaultPassword) {
+                    localStorage.setItem('logged-in', 'true');
+                    showAdminContent();
+                } else {
+                    alert('Incorrect password');
+                }
+            } else if (hashedInputPassword === storedPassword) {
+                localStorage.setItem('logged-in', 'true');
+                showAdminContent();
+            } else {
+                alert('Incorrect password');alert('Incorrect password');
+            }
+        }
+
+        function showAdminContent() {
+            document.getElementById('login-container').style.display = 'none';
+            document.getElementById('admin-container').style.display = 'block';
+            renderButtons();
+        }
+
+        document.addEventListener("DOMContentLoaded", async () => {
+            const loggedIn = localStorage.getItem('logged-in');
+            if (loggedIn === 'true') {
+                showAdminContent();
+            } else {
+                document.getElementById('login-container').style.display = 'flex';
+            }
+        });
+    </script>
+</body>
+  </html>
