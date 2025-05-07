@@ -1,19 +1,19 @@
- import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getDatabase, ref, set, push, onChildAdded, remove } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getDatabase, ref, set, push, onChildAdded, remove, query, limitToLast } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-analytics.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
-        // Firebase configuration
-        const firebaseConfig = {
-        apiKey: "AIzaSyDcTf6anqbIPdNaFXjEaqqSxNhdYki4ZFM",
-        authDomain: "appchat-9bfeb.firebaseapp.com",
-        databaseURL: "https://appchat-9bfeb-default-rtdb.asia-southeast1.firebasedatabase.app",
-        projectId: "appchat-9bfeb",
-        storageBucket: "appchat-9bfeb.appspot.com",
-        messagingSenderId: "1012809974964",
-        appId: "1:1012809974964:web:ff967f83e2095e887883e1",
-        measurementId: "G-NYW7VX043F"
-    };
+// Firebase configuration
+const firebaseConfig = {
+    apiKey: "AIzaSyDcTf6anqbIPdNaFXjEaqqSxNhdYki4ZFM",
+    authDomain: "appchat-9bfeb.firebaseapp.com",
+    databaseURL: "https://appchat-9bfeb-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "appchat-9bfeb",
+    storageBucket: "appchat-9bfeb.appspot.com",
+    messagingSenderId: "1012809974964",
+    appId: "1:1012809974964:web:ff967f83e2095e887883e1",
+    measurementId: "G-NYW7VX043F"
+};
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
@@ -21,11 +21,19 @@ const analytics = getAnalytics(app);
 const database = getDatabase(app);
 const auth = getAuth(app);
 
+let lastMessageTime = 0; // NEW: store last message timestamp
+
 // Function to send message
 window.sendMessage = function() {
     const messageInput = document.getElementById("messageInput");
     const messageText = messageInput.value.trim();
     const username = localStorage.getItem('username') || 'Guest';
+
+    const now = Date.now();
+    if (now - lastMessageTime < 2000) { // NEW: 2-second cooldown
+        alert("Please wait 2 seconds before sending another message.");
+        return;
+    }
 
     if (messageText !== "") {
         if (/^[a-zA-Z0-9-_,.!?() ]+$/.test(messageText)) {
@@ -35,6 +43,8 @@ window.sendMessage = function() {
                 username: username,
                 text: messageText,
                 timestamp: new Date().toISOString()
+            }).then(() => {
+                lastMessageTime = Date.now(); // update last message time
             }).catch(error => {
                 console.error("Error sending message:", error);
                 alert("Failed to send message. Please try again later.");
@@ -61,8 +71,8 @@ function displayMessage(username, text, timestamp) {
     chatBody.scrollTop = chatBody.scrollHeight;
 }
 
-// Listening for new messages
-const messagesRef = ref(database, 'messages');
+// Listening for last 50 messages
+const messagesRef = query(ref(database, 'messages'), limitToLast(50));
 onChildAdded(messagesRef, (snapshot) => {
     const message = snapshot.val();
     displayMessage(message.username, message.text, message.timestamp);
@@ -75,7 +85,7 @@ window.onload = function() {
         redirectToLogin();
     } else if (username === 'admin') {
         const resetBtn = document.querySelector('.reset-btn');
-        resetBtn.style.display = 'block';
+        if (resetBtn) resetBtn.style.display = 'block'; // FIX: check element exists
     }
 }
 
@@ -105,26 +115,28 @@ window.resetChat = function() {
 // Function to toggle sidebar
 window.toggleSidebar = function() {
     const sidebar = document.getElementById('sidebar');
-    if (sidebar.style.right === '0px') {
-        sidebar.style.right = '-200px';
-    } else {
-        sidebar.style.right = '0px';
+    if (sidebar) {
+        if (sidebar.style.right === '0px') {
+            sidebar.style.right = '-200px';
+        } else {
+            sidebar.style.right = '0px';
+        }
     }
 }
 
 window.closeSidebar = function() {
-    document.getElementById('sidebar').style.right = '-200px';
+    const sidebar = document.getElementById('sidebar');
+    if (sidebar) sidebar.style.right = '-200px';
 }
 
 // Function to handle admin authentication
 onAuthStateChanged(auth, (user) => {
     if (user) {
         user.getIdTokenResult().then((idTokenResult) => {
-            // Check if the user is an admin
             if (idTokenResult.claims.admin) {
                 localStorage.setItem('username', 'admin');
             }
-        });
+        }).catch(err => console.error('Token error:', err));
     } else {
         redirectToLogin();
     }
