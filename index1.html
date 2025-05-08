@@ -213,12 +213,8 @@
 
 
 
-
-
-
-
 <script>
-    // Firebase configuration
+    // Konfigurasi Firebase
     const firebaseConfig = {
         apiKey: "AIzaSyDcTf6anqbIPdNaFXjEaqqSxNhdYki4ZFM",
         authDomain: "appchat-9bfeb.firebaseapp.com",
@@ -230,11 +226,11 @@
         measurementId: "G-NYW7VX043F"
     };
 
-    // Initialize Firebase
+    // Inisialisasi Firebase
     const app = firebase.initializeApp(firebaseConfig);
     const database = firebase.database();
 
-    // Send message to Firebase
+    // Fungsi kirim pesan ke Firebase
     function sendMessage() {
         const messageInput = document.getElementById('messageInput');
         const message = messageInput.value.trim();
@@ -242,18 +238,18 @@
         if (message !== "") {
             const newMessageRef = database.ref('messages').push();
             newMessageRef.set({
-                user: 'User1', // Bisa diganti nama user-nya
+                user: 'User1', // Bisa diganti dengan nama user
                 message: message,
                 timestamp: Date.now()
             }).then(() => {
-                messageInput.value = ''; // Clear input
+                messageInput.value = ''; // Bersihkan input
             }).catch((error) => {
-                console.error("Error sending message: ", error);
+                console.error("Terjadi kesalahan saat mengirim pesan: ", error);
             });
         }
     }
 
-    // Get and display messages from Firebase
+    // Fungsi untuk mendapatkan dan menampilkan pesan dari Firebase
     function getMessages() {
         const messagesRef = database.ref('messages');
         messagesRef.on('child_added', function(snapshot) {
@@ -262,7 +258,7 @@
         });
     }
 
-    // Display message in chat body
+    // Fungsi untuk menampilkan pesan di chat body
     function displayMessage(user, message, timestamp) {
         const chatBody = document.getElementById('chatBody');
         const messageElement = document.createElement('div');
@@ -275,37 +271,17 @@
         chatBody.scrollTop = chatBody.scrollHeight; // Auto scroll
     }
 
-    // Load messages when page loads
-    window.onload = getMessages;
-
-    // Toggle sidebar
-    function toggleSidebar() {
-        const sidebar = document.getElementById('sidebar');
-        sidebar.style.right = sidebar.style.right === '0px' ? '-200px' : '0px';
-    }
-
-    // Close sidebar
-    function closeSidebar() {
-        document.getElementById('sidebar').style.right = '-200px';
-    }
-
-    // Reset chat (delete all messages)
-    function resetChat() {
-        const messagesRef = database.ref('messages');
-        messagesRef.remove().then(() => {
-            document.getElementById('chatBody').innerHTML = ''; // Clear chat on page
-        }).catch((error) => {
-            console.error("Error resetting chat: ", error);
-        });
-    }
+    // Memuat pesan saat halaman dimuat
+    window.onload = function() {
+        try {
+            getMessages();
+        } catch (error) {
+            console.error("Terjadi kesalahan saat memuat pesan: ", error);
+        }
+    };
 </script>
 
 
 
-
-
-
-
-    <script  src="cryp.s"></script>
 </body>
 </html>
