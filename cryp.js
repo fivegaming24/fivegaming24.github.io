@@ -1,10 +1,6 @@
- import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getDatabase, ref, set, push, onChildAdded, remove } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
-import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-analytics.js";
-import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-
-        // Firebase configuration
-        const firebaseConfig = {
+<script>
+    // Firebase configuration
+    const firebaseConfig = {
         apiKey: "AIzaSyDcTf6anqbIPdNaFXjEaqqSxNhdYki4ZFM",
         authDomain: "appchat-9bfeb.firebaseapp.com",
         databaseURL: "https://appchat-9bfeb-default-rtdb.asia-southeast1.firebasedatabase.app",
@@ -15,117 +11,70 @@ import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/
         measurementId: "G-NYW7VX043F"
     };
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
-const database = getDatabase(app);
-const auth = getAuth(app);
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
 
-// Function to send message
-window.sendMessage = function() {
-    const messageInput = document.getElementById("messageInput");
-    const messageText = messageInput.value.trim();
-    const username = localStorage.getItem('username') || 'Guest';
+    const database = firebase.database();
 
-    if (messageText !== "") {
-        if (/^[a-zA-Z0-9-_,.!?() ]+$/.test(messageText)) {
-            const messagesRef = ref(database, 'messages');
-            const newMessageRef = push(messagesRef);
-            set(newMessageRef, {
-                username: username,
-                text: messageText,
-                timestamp: new Date().toISOString()
-            }).catch(error => {
-                console.error("Error sending message:", error);
-                alert("Failed to send message. Please try again later.");
+    // Mengirim pesan ke Firebase
+    function sendMessage() {
+        const message = document.getElementById('messageInput').value;
+        if (message.trim() !== "") {
+            const newMessageRef = database.ref('messages').push();
+            newMessageRef.set({
+                user: 'User1', // Ganti dengan nama pengguna sesuai aplikasi Anda
+                message: message,
+                timestamp: Date.now()
             });
-
-            messageInput.value = "";
-        } else {
-            alert("Invalid characters in the message. Please try again.");
+            document.getElementById('messageInput').value = ''; // Clear input
         }
-    } else {
-        alert("Please enter a message.");
     }
-}
 
-// Function to display message
-function displayMessage(username, text, timestamp) {
-    const chatBody = document.getElementById("chatBody");
-    const messageDiv = document.createElement("div");
-    messageDiv.classList.add("messenger");
-    const time = new Date(timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-    const userClass = username === localStorage.getItem('username') ? 'user-messenger' : '';
-    messageDiv.innerHTML = `<div class="${userClass}"><span class="user">${username}</span><span class="time">${time}</span><div class="text">${text}</div></div>`;
-    chatBody.appendChild(messageDiv);
-    chatBody.scrollTop = chatBody.scrollHeight;
-}
-
-// Listening for new messages
-const messagesRef = ref(database, 'messages');
-onChildAdded(messagesRef, (snapshot) => {
-    const message = snapshot.val();
-    displayMessage(message.username, message.text, message.timestamp);
-});
-
-// Redirect to login if username not found
-window.onload = function() {
-    const username = localStorage.getItem('username');
-    if (!username) {
-        redirectToLogin();
-    } else if (username === 'admin') {
-        const resetBtn = document.querySelector('.reset-btn');
-        resetBtn.style.display = 'block';
-    }
-}
-
-function redirectToLogin() {
-    window.location.href = "index.html";
-}
-
-// Function to reset chat (only for admin)
-window.resetChat = function() {
-    const username = localStorage.getItem('username');
-    if (username === 'admin') {
-        const confirmReset = confirm("Are you sure you want to reset the chat? This action cannot be undone.");
-        if (confirmReset) {
-            const messagesRef = ref(database, 'messages');
-            remove(messagesRef).then(() => {
-                alert("Chat reset successful!");
-            }).catch((error) => {
-                console.error("Error resetting chat:", error);
-                alert("Failed to reset chat. Please try again later.");
-            });
-        }
-    } else {
-        alert("You don't have permission to reset the chat!");
-    }
-}
-
-// Function to toggle sidebar
-window.toggleSidebar = function() {
-    const sidebar = document.getElementById('sidebar');
-    if (sidebar.style.right === '0px') {
-        sidebar.style.right = '-200px';
-    } else {
-        sidebar.style.right = '0px';
-    }
-}
-
-window.closeSidebar = function() {
-    document.getElementById('sidebar').style.right = '-200px';
-}
-
-// Function to handle admin authentication
-onAuthStateChanged(auth, (user) => {
-    if (user) {
-        user.getIdTokenResult().then((idTokenResult) => {
-            // Check if the user is an admin
-            if (idTokenResult.claims.admin) {
-                localStorage.setItem('username', 'admin');
-            }
+    // Menampilkan pesan dari Firebase
+    function getMessages() {
+        const messagesRef = database.ref('messages');
+        messagesRef.on('child_added', function(snapshot) {
+            const data = snapshot.val();
+            displayMessage(data.user, data.message, data.timestamp);
         });
-    } else {
-        redirectToLogin();
     }
-});
+
+    // Menampilkan pesan di layar
+    function displayMessage(user, message, timestamp) {
+        const chatBody = document.getElementById('chatBody');
+        const messageElement = document.createElement('div');
+        messageElement.classList.add('messenger');
+        messageElement.innerHTML = `
+            <div class="user">${user}</div>
+            <div class="time">${new Date(timestamp).toLocaleTimeString()}</div>
+            <div class="text">${message}</div>
+        `;
+        chatBody.appendChild(messageElement);
+        chatBody.scrollTop = chatBody.scrollHeight; // Scroll ke bawah
+    }
+
+    // Memanggil fungsi getMessages saat halaman dimuat
+    window.onload = getMessages;
+
+    // Fungsi untuk menampilkan dan menyembunyikan sidebar
+    function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        if (sidebar.style.right === '0px') {
+            sidebar.style.right = '-200px';
+        } else {
+            sidebar.style.right = '0px';
+        }
+    }
+
+    // Menutup sidebar
+    function closeSidebar() {
+        document.getElementById('sidebar').style.right = '-200px';
+    }
+
+    // Reset chat (hapus semua pesan)
+    function resetChat() {
+        const messagesRef = database.ref('messages');
+        messagesRef.remove(); // Hapus semua pesan
+        document.getElementById('chatBody').innerHTML = ''; // Bersihkan chat di halaman
+    }
+</script>
