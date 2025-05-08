@@ -212,8 +212,8 @@
 
 
 
-
-
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js"></script>
 <script>
     // Firebase configuration
     const firebaseConfig = {
@@ -228,25 +228,29 @@
     };
 
     // Initialize Firebase
-    firebase.initializeApp(firebaseConfig);
-
+    const app = firebase.initializeApp(firebaseConfig);
     const database = firebase.database();
 
-    // Mengirim pesan ke Firebase
+    // Send message to Firebase
     function sendMessage() {
-        const message = document.getElementById('messageInput').value;
-        if (message.trim() !== "") {
+        const messageInput = document.getElementById('messageInput');
+        const message = messageInput.value.trim();
+
+        if (message !== "") {
             const newMessageRef = database.ref('messages').push();
             newMessageRef.set({
-                user: 'User1', // Ganti dengan nama pengguna sesuai aplikasi Anda
+                user: 'User1', // Bisa diganti nama user-nya
                 message: message,
                 timestamp: Date.now()
+            }).then(() => {
+                messageInput.value = ''; // Clear input
+            }).catch((error) => {
+                console.error("Error sending message: ", error);
             });
-            document.getElementById('messageInput').value = ''; // Clear input
         }
     }
 
-    // Menampilkan pesan dari Firebase
+    // Get and display messages from Firebase
     function getMessages() {
         const messagesRef = database.ref('messages');
         messagesRef.on('child_added', function(snapshot) {
@@ -255,45 +259,48 @@
         });
     }
 
-    // Menampilkan pesan di layar
+    // Display message in chat body
     function displayMessage(user, message, timestamp) {
         const chatBody = document.getElementById('chatBody');
         const messageElement = document.createElement('div');
         messageElement.classList.add('messenger');
         messageElement.innerHTML = `
-            <div class="user">${user}</div>
-            <div class="time">${new Date(timestamp).toLocaleTimeString()}</div>
+            <div class="user">${user} <span class="time">${new Date(timestamp).toLocaleTimeString()}</span></div>
             <div class="text">${message}</div>
         `;
         chatBody.appendChild(messageElement);
-        chatBody.scrollTop = chatBody.scrollHeight; // Scroll ke bawah
+        chatBody.scrollTop = chatBody.scrollHeight; // Auto scroll
     }
 
-    // Memanggil fungsi getMessages saat halaman dimuat
+    // Load messages when page loads
     window.onload = getMessages;
 
-    // Fungsi untuk menampilkan dan menyembunyikan sidebar
+    // Toggle sidebar
     function toggleSidebar() {
         const sidebar = document.getElementById('sidebar');
-        if (sidebar.style.right === '0px') {
-            sidebar.style.right = '-200px';
-        } else {
-            sidebar.style.right = '0px';
-        }
+        sidebar.style.right = sidebar.style.right === '0px' ? '-200px' : '0px';
     }
 
-    // Menutup sidebar
+    // Close sidebar
     function closeSidebar() {
         document.getElementById('sidebar').style.right = '-200px';
     }
 
-    // Reset chat (hapus semua pesan)
+    // Reset chat (delete all messages)
     function resetChat() {
         const messagesRef = database.ref('messages');
-        messagesRef.remove(); // Hapus semua pesan
-        document.getElementById('chatBody').innerHTML = ''; // Bersihkan chat di halaman
+        messagesRef.remove().then(() => {
+            document.getElementById('chatBody').innerHTML = ''; // Clear chat on page
+        }).catch((error) => {
+            console.error("Error resetting chat: ", error);
+        });
     }
 </script>
+
+
+
+
+
 
 
     <script  src="cryp.s"></script>
