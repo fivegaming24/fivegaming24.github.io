@@ -1,287 +1,276 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FiveGaming Chat</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FiveGaming Chat</title>
 
- <!-- Firebase SDKs -->
-    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js"></script>
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js"></script>
 
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-    <style>
-        /* Your CSS styles */
-            /* Your CSS styles */
-        body {
-        font-family: 'Press Start 2P', cursive;
-        background-color: #1f1f1f;
-        color: #fff;
-        margin: 0;
-        padding: 0;
-        display: flex;
-        flex-direction: column;
-        height: 100vh;
+  <style>
+    body {
+      font-family: 'Press Start 2P', cursive;
+      background-color: #1f1f1f;
+      color: #fff;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
     }
     .chat-container {
-        max-width: 800px;
-        margin: 20px auto;
-        background-color: #333;
-        border-radius: 8px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        position: relative;
+      max-width: 800px;
+      margin: 20px auto;
+      background-color: #333;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      position: relative;
     }
     .chat-header {
-        padding: 15px;
-        background-color: #e91e63;
-        color: #fff;
-        border-top-left-radius: 8px;
-        border-top-right-radius: 8px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
+      padding: 15px;
+      background-color: #e91e63;
+      color: #fff;
+      border-top-left-radius: 8px;
+      border-top-right-radius: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
     .chat-header h2 {
-        margin: 0;
-        font-size: 24px;
-    }
-    .chat-header .menu-btn {
-        background-color: #fff;
-        color: #e91e63;
-        padding: 5px 10px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-    }
-    .chat-header .menu-btn:hover {
-        background-color: #f8bbd0;
+      margin: 0;
+      font-size: 24px;
     }
     .chat-body {
-        padding: 20px;
-        overflow-y: scroll;
-        flex: 1;
+      padding: 20px;
+      overflow-y: auto;
+      flex: 1;
     }
     .messenger {
-        margin-bottom: 15px;
+      margin-bottom: 15px;
     }
     .messenger .user {
-        font-weight: bold;
+      font-weight: bold;
     }
     .messenger .time {
-        color: #888;
-        font-size: 12px;
-        margin-left: 10px;
+      color: #888;
+      font-size: 12px;
+      margin-left: 10px;
     }
     .messenger .text {
-        background-color: #444;
-        border-radius: 5px;
-        padding: 10px;
-        display: inline-block;
+      background-color: #444;
+      border-radius: 5px;
+      padding: 10px;
+      display: inline-block;
     }
-    .messenger .user-messenger {
-        text-align: right;
+    .user-messenger {
+      text-align: right;
     }
-    .messenger .user-messenger .text {
-        background-color: #e91e63;
+    .user-messenger .text {
+      background-color: #e91e63;
     }
     .chat-input {
-        padding: 15px;
-        background-color: #333;
-        border-top: 1px solid #444;
-        display: flex;
-        align-items: center;
+      padding: 15px;
+      background-color: #333;
+      border-top: 1px solid #444;
+      display: flex;
+      align-items: center;
     }
     .chat-input input[type="text"] {
-        width: calc(100% - 50px);
-        padding: 10px;
-        border: none;
-        border-radius: 5px;
-        background-color: #444;
-        color: #fff;
-        outline: none;
+      width: calc(100% - 50px);
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      background-color: #444;
+      color: #fff;
+      outline: none;
     }
     .chat-input button {
-        width: 40px;
-        padding: 10px;
-        margin-left: 10px;
-        border: none;
-        border-radius: 50%;
-        background-color: #e91e63;
-        color: #fff;
-        cursor: pointer;
-        outline: none;
+      width: 40px;
+      padding: 10px;
+      margin-left: 10px;
+      border: none;
+      border-radius: 50%;
+      background-color: #e91e63;
+      color: #fff;
+      cursor: pointer;
+      outline: none;
     }
     .footer {
-        text-align: center;
-        padding: 10px;
-        background-color: #333;
-        color: #888;
+      text-align: center;
+      padding: 10px;
+      background-color: #333;
+      color: #888;
     }
     .footer a {
-        color: #e91e63;
-        text-decoration: none;
+      color: #e91e63;
+      text-decoration: none;
     }
     .menu-btn {
-        position: fixed;
-        top: 20px;
-        left: 20px;
-        background-color: #e91e63;
-        color: #fff;
-        border: none;
-        font-size: 24px;
-        padding: 10px;
-        cursor: pointer;
-        border-radius: 5px;
-        z-index: 999;
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      background-color: #e91e63;
+      color: #fff;
+      border: none;
+      font-size: 24px;
+      padding: 10px;
+      cursor: pointer;
+      border-radius: 5px;
+      z-index: 999;
     }
     .menu-btn:hover {
-        background-color: #d81b60;
+      background-color: #d81b60;
     }
     .sidebar {
-        position: fixed;
-        top: 0;
-        right: -200px;
-        width: 200px;
-        height: 100%;
-        background-color: #28282d;
-        transition: right 0.3s;
-        z-index: 998;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        padding-top: 60px;
+      position: fixed;
+      top: 0;
+      right: -220px;
+      width: 200px;
+      height: 100%;
+      background-color: #28282d;
+      transition: right 0.3s ease;
+      z-index: 998;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-top: 60px;
+    }
+    .sidebar.open {
+      right: 0;
     }
     .sidebar button {
-        width: 80%;
-        padding: 10px;
-        margin: 10px 0;
-        background-color: #e91e63;
-        color: #fff;
-        border: none;
-        cursor: pointer;
-        font-size: 16px;
-        border-radius: 5px;
+      width: 80%;
+      padding: 10px;
+      margin: 10px 0;
+      background-color: #e91e63;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+      border-radius: 5px;
     }
     .sidebar button:hover {
-        background-color: #d81b60;
+      background-color: #d81b60;
     }
     .close-btn {
-        position: absolute;
-        top: 20px;
-        right: 20px;
-        background-color: transparent;
-        color: #fff;
-        border: none;
-        font-size: 24px;
-        cursor: pointer;
-    </style>
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background-color: transparent;
+      color: #fff;
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body>
-    <!-- Your HTML content -->
-    <button class="menu-btn" onclick="toggleSidebar()">&#9776;</button> <!-- Tombol menu -->
-    <div class="sidebar" id="sidebar">
-        <button onclick="window.open('https://www.instagram.com/fivegaming_24', '_blank')">Instagram</button>
-        <button onclick="window.open('https://chat.whatsapp.com/FTQIH4z6u5GKuB9I02UAyZ', '_blank')">WhatsApp</button>
-        <button class="reset-btn" onclick="resetChat()">Reset Chat</button>
-        <button class="close-btn" onclick="closeSidebar()">close</button> <!-- Tombol close -->
+
+  <button class="menu-btn" onclick="toggleSidebar()">&#9776;</button>
+
+  <div class="sidebar" id="sidebar">
+    <button onclick="window.open('https://www.instagram.com/fivegaming_24', '_blank')">Instagram</button>
+    <button onclick="window.open('https://chat.whatsapp.com/FTQIH4z6u5GKuB9I02UAyZ', '_blank')">WhatsApp</button>
+    <button class="reset-btn" onclick="resetChat()">Reset Chat</button>
+    <button class="close-btn" onclick="closeSidebar()">×</button>
+  </div>
+
+  <div class="chat-container">
+    <div class="chat-header">
+      <h2>FiveGaming Chat</h2>
     </div>
-    
-    <div class="chat-container">
-        <div class="chat-header">
-            <h2>FiveGaming Chat</h2>
-        </div>
-        <div class="chat-body" id="chatBody">
-            <!-- Chat messages will be displayed here -->
-        </div>
-        <div class="chat-input">
-            <input type="text" id="messageInput" placeholder="Write a message...">
-            <button onclick="sendMessage()"><i class="fas fa-paper-plane"></i></button>
-        </div>
+    <div class="chat-body" id="chatBody"></div>
+    <div class="chat-input">
+      <input type="text" id="messageInput" placeholder="Write a message...">
+      <button onclick="sendMessage()"><i class="fas fa-paper-plane"></i></button>
     </div>
-    
-    <div class="footer">by <a href="https://www.instagram.com/sabar__24?igshid=MWIwMHpxbzVyNmtrcA==" target="_blank">@sabar__24</a>
-        <div class="version">Version 1.7</div>
-    </div>
+  </div>
 
+  <div class="footer">
+    by <a href="https://www.instagram.com/sabar__24?igshid=MWIwMHpxbzVyNmtrcA==" target="_blank">@sabar__24</a>
+    <div class="version">Version 1.7</div>
+  </div>
 
-
-
-
-<script>
-    // Konfigurasi Firebase
+  <script>
     const firebaseConfig = {
-        apiKey: "AIzaSyDcTf6anqbIPdNaFXjEaqqSxNhdYki4ZFM",
-        authDomain: "appchat-9bfeb.firebaseapp.com",
-        databaseURL: "https://appchat-9bfeb-default-rtdb.asia-southeast1.firebasedatabase.app",
-        projectId: "appchat-9bfeb",
-        storageBucket: "appchat-9bfeb.appspot.com",
-        messagingSenderId: "1012809974964",
-        appId: "1:1012809974964:web:ff967f83e2095e887883e1",
-        measurementId: "G-NYW7VX043F"
+      apiKey: "AIzaSyDcTf6anqbIPdNaFXjEaqqSxNhdYki4ZFM",
+      authDomain: "appchat-9bfeb.firebaseapp.com",
+      databaseURL: "https://appchat-9bfeb-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "appchat-9bfeb",
+      storageBucket: "appchat-9bfeb.appspot.com",
+      messagingSenderId: "1012809974964",
+      appId: "1:1012809974964:web:ff967f83e2095e887883e1",
+      measurementId: "G-NYW7VX043F"
     };
 
-    // Inisialisasi Firebase
     const app = firebase.initializeApp(firebaseConfig);
     const database = firebase.database();
 
-    // Fungsi kirim pesan ke Firebase
     function sendMessage() {
-        const messageInput = document.getElementById('messageInput');
-        const message = messageInput.value.trim();
-
-        if (message !== "") {
-            const newMessageRef = database.ref('messages').push();
-            newMessageRef.set({
-                user: 'User1', // Bisa diganti dengan nama user
-                message: message,
-                timestamp: Date.now()
-            }).then(() => {
-                messageInput.value = ''; // Bersihkan input
-            }).catch((error) => {
-                console.error("Terjadi kesalahan saat mengirim pesan: ", error);
-            });
-        }
-    }
-
-    // Fungsi untuk mendapatkan dan menampilkan pesan dari Firebase
-    function getMessages() {
-        const messagesRef = database.ref('messages');
-        messagesRef.on('child_added', function(snapshot) {
-            const data = snapshot.val();
-            displayMessage(data.user, data.message, data.timestamp);
+      const messageInput = document.getElementById('messageInput');
+      const message = messageInput.value.trim();
+      if (message !== "") {
+        const newMessageRef = database.ref('messages').push();
+        newMessageRef.set({
+          user: 'User1',
+          message: message,
+          timestamp: Date.now()
+        }).then(() => {
+          messageInput.value = '';
+        }).catch((error) => {
+          console.error("Terjadi kesalahan saat mengirim pesan: ", error);
         });
+      }
     }
 
-    // Fungsi untuk menampilkan pesan di chat body
+    function getMessages() {
+      const messagesRef = database.ref('messages');
+      messagesRef.on('child_added', function(snapshot) {
+        const data = snapshot.val();
+        displayMessage(data.user, data.message, data.timestamp);
+      });
+    }
+
     function displayMessage(user, message, timestamp) {
-        const chatBody = document.getElementById('chatBody');
-        const messageElement = document.createElement('div');
-        messageElement.classList.add('messenger');
-        messageElement.innerHTML = `
-            <div class="user">${user} <span class="time">${new Date(timestamp).toLocaleTimeString()}</span></div>
-            <div class="text">${message}</div>
-        `;
-        chatBody.appendChild(messageElement);
-        chatBody.scrollTop = chatBody.scrollHeight; // Auto scroll
+      const chatBody = document.getElementById('chatBody');
+      const messageElement = document.createElement('div');
+      messageElement.classList.add('messenger');
+      if (user === 'User1') {
+        messageElement.classList.add('user-messenger');
+      }
+      messageElement.innerHTML = `
+        <div class="user">${user} <span class="time">${new Date(timestamp).toLocaleTimeString()}</span></div>
+        <div class="text">${message}</div>
+      `;
+      chatBody.appendChild(messageElement);
+      chatBody.scrollTop = chatBody.scrollHeight;
     }
 
-    // Memuat pesan saat halaman dimuat
-    window.onload = function() {
-        try {
-            getMessages();
-        } catch (error) {
-            console.error("Terjadi kesalahan saat memuat pesan: ", error);
-        }
-    };
-</script>
+    function toggleSidebar() {
+      document.getElementById('sidebar').classList.toggle('open');
+    }
 
+    function closeSidebar() {
+      document.getElementById('sidebar').classList.remove('open');
+    }
 
+    function resetChat() {
+      if (confirm("Yakin ingin menghapus semua pesan?")) {
+        database.ref('messages').remove();
+        document.getElementById('chatBody').innerHTML = "";
+      }
+    }
+
+    window.onload = getMessages;
+  </script>
 
 </body>
 </html>
