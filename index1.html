@@ -5,9 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>FiveGaming Chat</title>
 
-  <!-- Firebase SDKs -->
-  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js"></script>
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
@@ -199,78 +196,73 @@
     <div class="version">Version 1.7</div>
   </div>
 
-  <script>
+<!-- Firebase SDKs (Modular, versi baru) -->
+<script type="module">
+    // Import modular SDK
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getDatabase, ref, push, set, onChildAdded } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
     const firebaseConfig = {
-      apiKey: "AIzaSyDcTf6anqbIPdNaFXjEaqqSxNhdYki4ZFM",
-      authDomain: "appchat-9bfeb.firebaseapp.com",
-      databaseURL: "https://appchat-9bfeb-default-rtdb.asia-southeast1.firebasedatabase.app",
-      projectId: "appchat-9bfeb",
-      storageBucket: "appchat-9bfeb.appspot.com",
-      messagingSenderId: "1012809974964",
-      appId: "1:1012809974964:web:ff967f83e2095e887883e1",
-      measurementId: "G-NYW7VX043F"
+        apiKey: "AIzaSyDcTf6anqbIPdNaFXjEaqqSxNhdYki4ZFM",
+        authDomain: "appchat-9bfeb.firebaseapp.com",
+        databaseURL: "https://appchat-9bfeb-default-rtdb.asia-southeast1.firebasedatabase.app",
+        projectId: "appchat-9bfeb",
+        storageBucket: "appchat-9bfeb.appspot.com",
+        messagingSenderId: "1012809974964",
+        appId: "1:1012809974964:web:ff967f83e2095e887883e1",
+        measurementId: "G-NYW7VX043F"
     };
 
-    const app = firebase.initializeApp(firebaseConfig);
-    const database = firebase.database();
+    // Inisialisasi Firebase
+    const app = initializeApp(firebaseConfig);
+    const database = getDatabase(app);
 
-    function sendMessage() {
-      const messageInput = document.getElementById('messageInput');
-      const message = messageInput.value.trim();
-      if (message !== "") {
-        const newMessageRef = database.ref('messages').push();
-        newMessageRef.set({
-          user: 'User1',
-          message: message,
-          timestamp: Date.now()
-        }).then(() => {
-          messageInput.value = '';
-        }).catch((error) => {
-          console.error("Terjadi kesalahan saat mengirim pesan: ", error);
-        });
-      }
+    // Fungsi kirim pesan
+    window.sendMessage = function() {
+        const messageInput = document.getElementById('messageInput');
+        const message = messageInput.value.trim();
+
+        if (message !== "") {
+            const newMessageRef = push(ref(database, 'messages'));
+            set(newMessageRef, {
+                user: 'User1',
+                message: message,
+                timestamp: Date.now()
+            }).then(() => {
+                messageInput.value = '';
+            }).catch((error) => {
+                console.error("Terjadi kesalahan saat mengirim pesan: ", error);
+            });
+        }
     }
 
+    // Fungsi ambil pesan
     function getMessages() {
-      const messagesRef = database.ref('messages');
-      messagesRef.on('child_added', function(snapshot) {
-        const data = snapshot.val();
-        displayMessage(data.user, data.message, data.timestamp);
-      });
+        const messagesRef = ref(database, 'messages');
+        onChildAdded(messagesRef, (snapshot) => {
+            const data = snapshot.val();
+            displayMessage(data.user, data.message, data.timestamp);
+        });
     }
 
-    function displayMessage(user, message, timestamp) {
-      const chatBody = document.getElementById('chatBody');
-      const messageElement = document.createElement('div');
-      messageElement.classList.add('messenger');
-      if (user === 'User1') {
-        messageElement.classList.add('user-messenger');
-      }
-      messageElement.innerHTML = `
-        <div class="user">${user} <span class="time">${new Date(timestamp).toLocaleTimeString()}</span></div>
-        <div class="text">${message}</div>
-      `;
-      chatBody.appendChild(messageElement);
-      chatBody.scrollTop = chatBody.scrollHeight;
+    // Fungsi tampilkan pesan
+    window.displayMessage = function(user, message, timestamp) {
+        const chatBody = document.getElementById('chatBody');
+        const messageElement = document.createElement('div');
+        messageElement.classList.add('messenger');
+        messageElement.innerHTML = `
+            <div class="user">${user} <span class="time">${new Date(timestamp).toLocaleTimeString()}</span></div>
+            <div class="text">${message}</div>
+        `;
+        chatBody.appendChild(messageElement);
+        chatBody.scrollTop = chatBody.scrollHeight;
     }
 
-    function toggleSidebar() {
-      document.getElementById('sidebar').classList.toggle('open');
-    }
-
-    function closeSidebar() {
-      document.getElementById('sidebar').classList.remove('open');
-    }
-
-    function resetChat() {
-      if (confirm("Yakin ingin menghapus semua pesan?")) {
-        database.ref('messages').remove();
-        document.getElementById('chatBody').innerHTML = "";
-      }
-    }
-
-    window.onload = getMessages;
-  </script>
+    // Panggil saat halaman selesai dimuat
+    window.onload = function() {
+        getMessages();
+    };
+</script>
 
 </body>
 </html>
