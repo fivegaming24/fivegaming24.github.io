@@ -200,10 +200,11 @@
   <script type="module">
     
   import { redirectIfNotLoggedIn, getUsername } from './authCheck.js';
+  redirectIfNotLoggedIn();
+
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { getDatabase, ref, push, set, onChildAdded } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
-redirectIfNotLoggedIn();
 
 const firebaseConfig = {
   apiKey: "AIzaSyDcTf6anqbIPdNaFXjEaqqSxNhdYki4ZFM",
