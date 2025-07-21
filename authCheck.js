@@ -1,7 +1,7 @@
 export function redirectIfNotLoggedIn() {
     const username = localStorage.getItem('username');
     if (!username) {
-      window.location.href = 'index2.html';
+      window.location.href = 'index1.html';
     }
   }
   
